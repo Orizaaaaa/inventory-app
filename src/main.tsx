@@ -1,5 +1,5 @@
 import Provider from "./provider";
-import { Routes } from "@generouted/react-router/lazy";
+import { Routes } from "@generouted/react-router";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 

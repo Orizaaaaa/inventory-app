@@ -1,7 +1,15 @@
-export default function Rasasi() {
+import { Dashboard } from "@/components/layout"
+import { Home } from "lucide-react"
+
+export default function Page() {
     return (
-        <div>
-            <h1 className="text-3xl font-bold underline">Hello world! kontol</h1>
-        </div>
-    );
+        <Dashboard
+            breadcrumbItems={[
+                { label: "Building Your Application", href: "#", icon: Home },
+                { label: "Data Fetching", isCurrentPage: true }
+            ]}
+        >
+            <h1>halo</h1>
+        </Dashboard>
+    )
 }
