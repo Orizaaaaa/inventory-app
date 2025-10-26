@@ -1,11 +1,7 @@
-import React from 'react'
-
-type Props = {}
-
-const index = (props: Props) => {
+export default function Home() {
     return (
-        <div>index</div>
-    )
+        <div>
+            <h1 className="text-3xl font-bold underline">Hello world!</h1>
+        </div>
+    );
 }
-
-export default index
