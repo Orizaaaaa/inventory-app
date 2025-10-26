@@ -8,10 +8,11 @@ export default function Home() {
             breadcrumbItems={[
                 { label: "Dashboard", isCurrentPage: true, icon: HomeIcon }
             ]}
-            title="Welcome to Inventory App"
-            description="Manage your inventory efficiently with our modern dashboard"
         >
-            <h1>dshboard</h1>
+            <section className="space-y-4 shadow-xl p-6 min-h-screen rounded-xl">
+                <h1>dshboard</h1>
+            </section>
+
         </Dashboard>
     );
 }
