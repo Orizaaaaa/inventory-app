@@ -4,15 +4,15 @@ import { ChevronRight, MoreHorizontal } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-function Breadcrumb({ 
-  children, 
+function Breadcrumb({
+  children,
   className,
-  ...props 
+  ...props
 }: React.ComponentProps<"nav">) {
   return (
-    <nav 
-      aria-label="breadcrumb" 
-      data-slot="breadcrumb" 
+    <nav
+      aria-label="breadcrumb"
+      data-slot="breadcrumb"
       className={cn("flex items-center space-x-1", className)}
       {...props}
     >
@@ -21,10 +21,10 @@ function Breadcrumb({
   )
 }
 
-function BreadcrumbHeader({ 
-  className, 
+function BreadcrumbHeader({
+  className,
   children,
-  ...props 
+  ...props
 }: React.ComponentProps<"div">) {
   return (
     <div
