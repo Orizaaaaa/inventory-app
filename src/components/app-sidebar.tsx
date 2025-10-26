@@ -3,19 +3,18 @@
 import * as React from "react"
 import {
   AudioWaveform,
-  BookOpen,
   Bot,
   Command,
-  Frame,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
+  LayoutDashboard,
+  Building2,
+  Package,
+  Warehouse,
+  ShoppingCart,
+  TrendingUp,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
@@ -54,104 +53,76 @@ const data = {
     {
       title: "Dashboard",
       url: "/",
-      icon: SquareTerminal,
+      icon: LayoutDashboard,
       isActive: true,
-      items: [
-        {
-          title: "Overview",
-          url: "/",
-        },
-        {
-          title: "Analytics",
-          url: "/analytics",
-        },
-        {
-          title: "Reports",
-          url: "/reports",
-        },
-      ],
     },
     {
-      title: "Inventory",
-      url: "/inventory",
+      title: "Data Vendor",
+      url: "/data-vendor",
+      icon: Building2,
+    },
+    {
+      title: "Data Produk",
+      url: "/data-produk",
+      icon: Package,
+    },
+    {
+      title: "Data Bahan Baku",
+      url: "/data-bahan-baku",
       icon: Bot,
+    },
+    {
+      title: "Warehouse",
+      url: "/warehouse",
+      icon: Warehouse,
       items: [
         {
-          title: "Products",
-          url: "/inventory/products",
+          title: "Barang Masuk",
+          url: "/warehouse/barang-masuk",
         },
         {
-          title: "Categories",
-          url: "/inventory/categories",
-        },
-        {
-          title: "Stock",
-          url: "/inventory/stock",
+          title: "Barang Keluar",
+          url: "/warehouse/barang-keluar",
         },
       ],
     },
     {
-      title: "Rasasi",
-      url: "/rasasi",
-      icon: BookOpen,
+      title: "Data Pre Order",
+      url: "/data-pre-order",
+      icon: ShoppingCart,
       items: [
         {
-          title: "Dashboard",
-          url: "/rasasi",
+          title: "Rincian Pre Order",
+          url: "/data-pre-order/rincian",
         },
         {
-          title: "Products",
-          url: "/rasasi/products",
+          title: "Data sisa Pre Order",
+          url: "/data-pre-order/sisa",
         },
         {
-          title: "Orders",
-          url: "/rasasi/orders",
-        },
-        {
-          title: "Customers",
-          url: "/rasasi/customers",
+          title: "Format Pre Order",
+          url: "/data-pre-order/format",
         },
       ],
     },
     {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings2,
+      title: "Data Penjualan",
+      url: "/data-penjualan",
+      icon: TrendingUp,
       items: [
         {
-          title: "General",
-          url: "/settings/general",
+          title: "Market Place",
+          url: "/data-penjualan/market-place",
         },
         {
-          title: "Team",
-          url: "/settings/team",
+          title: "Offline Store/Website",
+          url: "/data-penjualan/offline-store-website",
         },
         {
-          title: "Billing",
-          url: "/settings/billing",
-        },
-        {
-          title: "Limits",
-          url: "/settings/limits",
+          title: "Data Forecasting",
+          url: "/data-penjualan/forecasting",
         },
       ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "/projects/design",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "/projects/sales",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "/projects/travel",
-      icon: Map,
     },
   ],
 }
@@ -164,7 +135,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

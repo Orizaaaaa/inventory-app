@@ -28,6 +28,10 @@ export function NavMain({
     items?: {
       title: string
       url: string
+      items?: {
+        title: string
+        url: string
+      }[]
     }[]
   }[]
 }) {
@@ -41,6 +45,26 @@ export function NavMain({
           const isItemActive = isActiveRoute(currentRoute, item.url) || 
             item.items?.some(subItem => isActiveRoute(currentRoute, subItem.url))
           
+          // If item has no sub-items, render as direct link
+          if (!item.items || item.items.length === 0) {
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton 
+                  asChild
+                  tooltip={item.title}
+                  isActive={isItemActive}
+                  className={isItemActive ? "bg-sidebar-active text-sidebar-active-foreground hover:bg-sidebar-active hover:text-sidebar-active-foreground" : ""}
+                >
+                  <a href={item.url}>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )
+          }
+          
+          // If item has sub-items, render as collapsible
           return (
             <Collapsible
               key={item.title}
@@ -64,18 +88,65 @@ export function NavMain({
                   <SidebarMenuSub>
                     {item.items?.map((subItem) => {
                       const isSubItemActive = isActiveRoute(currentRoute, subItem.url)
+                      
+                      // If sub-item has no further sub-items, render as direct link
+                      if (!subItem.items || subItem.items.length === 0) {
+                        return (
+                          <SidebarMenuSubItem key={subItem.title}>
+                            <SidebarMenuSubButton 
+                              asChild
+                              isActive={isSubItemActive}
+                              className={isSubItemActive ? "bg-sidebar-active text-sidebar-active-foreground hover:bg-sidebar-active hover:text-sidebar-active-foreground" : ""}
+                            >
+                              <a href={subItem.url}>
+                                <span>{subItem.title}</span>
+                              </a>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        )
+                      }
+                      
+                      // If sub-item has further sub-items, render as nested collapsible
                       return (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton 
-                            asChild
-                            isActive={isSubItemActive}
-                            className={isSubItemActive ? "bg-sidebar-active text-sidebar-active-foreground hover:bg-sidebar-active hover:text-sidebar-active-foreground" : ""}
-                          >
-                            <a href={subItem.url}>
-                              <span>{subItem.title}</span>
-                            </a>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
+                        <Collapsible
+                          key={subItem.title}
+                          asChild
+                          defaultOpen={isSubItemActive}
+                          className="group/collapsible-sub"
+                        >
+                          <SidebarMenuSubItem>
+                            <CollapsibleTrigger asChild>
+                              <SidebarMenuSubButton 
+                                tooltip={subItem.title}
+                                isActive={isSubItemActive}
+                                className={isSubItemActive ? "bg-sidebar-active text-sidebar-active-foreground hover:bg-sidebar-active hover:text-sidebar-active-foreground" : ""}
+                              >
+                                <span>{subItem.title}</span>
+                                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible-sub:rotate-90" />
+                              </SidebarMenuSubButton>
+                            </CollapsibleTrigger>
+                            <CollapsibleContent>
+                              <SidebarMenuSub>
+                                {subItem.items?.map((subSubItem) => {
+                                  const isSubSubItemActive = isActiveRoute(currentRoute, subSubItem.url)
+                                  return (
+                                    <SidebarMenuSubItem key={subSubItem.title}>
+                                      <SidebarMenuSubButton 
+                                        asChild
+                                        isActive={isSubSubItemActive}
+                                        className={isSubSubItemActive ? "bg-sidebar-active text-sidebar-active-foreground hover:bg-sidebar-active hover:text-sidebar-active-foreground" : ""}
+                                      >
+                                        <a href={subSubItem.url}>
+                                          <span>{subSubItem.title}</span>
+                                        </a>
+                                      </SidebarMenuSubButton>
+                                    </SidebarMenuSubItem>
+                                  )
+                                })}
+                              </SidebarMenuSub>
+                            </CollapsibleContent>
+                          </SidebarMenuSubItem>
+                        </Collapsible>
                       )
                     })}
                   </SidebarMenuSub>
