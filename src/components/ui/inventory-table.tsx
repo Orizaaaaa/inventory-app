@@ -1,8 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 import { Table, TBody, Td, Th, THead, Tr } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/utils/cn';
 import { Package, TrendingUp, TrendingDown, AlertTriangle } from 'lucide-react';
+import PaginationWrapper from '@/components/ui/pagination-wrapper';
 
 interface TopProduct {
   id: string;
@@ -38,18 +39,25 @@ const statusConfig = {
 };
 
 export function InventoryTable({ data, className }: InventoryTableProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const paginatedData = data.slice(startIndex, endIndex);
+
   const columns = [
     {
       key: 'product',
       header: 'Product',
       render: (item: TopProduct) => (
-        <div className="flex items-center space-x-3">
-          <div className="p-2 bg-blue-50 rounded-lg">
-            <Package className="h-4 w-4 text-blue-600" />
+        <div className="flex items-center space-x-2">
+          <div className="p-1.5 bg-blue-50 rounded-lg">
+            <Package className="h-3.5 w-3.5 text-blue-600" />
           </div>
           <div>
-            <p className="font-medium text-gray-900">{item.name}</p>
-            <p className="text-sm text-gray-500">{item.category}</p>
+            <p className="font-medium text-gray-900 text-sm">{item.name}</p>
+            <p className="text-xs text-gray-500">{item.category}</p>
           </div>
         </div>
       )
@@ -59,7 +67,7 @@ export function InventoryTable({ data, className }: InventoryTableProps) {
       header: 'Stock',
       render: (item: TopProduct) => (
         <div className="text-start">
-          <p className="font-medium text-gray-900">{item.stock}</p>
+          <p className="font-medium text-gray-900 text-sm">{item.stock}</p>
           <p className="text-xs text-gray-500">units</p>
         </div>
       )
@@ -68,8 +76,8 @@ export function InventoryTable({ data, className }: InventoryTableProps) {
       key: 'price',
       header: 'Price',
       render: (item: TopProduct) => (
-        <div className="text-start ">
-          <p className="font-medium text-gray-900">
+        <div className="text-start">
+          <p className="font-medium text-gray-900 text-sm">
             Rp {item.price.toLocaleString('id-ID')}
           </p>
         </div>
@@ -80,7 +88,7 @@ export function InventoryTable({ data, className }: InventoryTableProps) {
       header: 'Sales',
       render: (item: TopProduct) => (
         <div className="text-start">
-          <p className="font-medium text-gray-900">{item.sales}</p>
+          <p className="font-medium text-gray-900 text-sm">{item.sales}</p>
           <p className="text-xs text-gray-500">units sold</p>
         </div>
       )
@@ -94,7 +102,7 @@ export function InventoryTable({ data, className }: InventoryTableProps) {
         
         return (
           <div className="flex justify-center">
-            <Badge className={cn("flex items-center space-x-1", config.color)}>
+            <Badge className={cn("flex items-center space-x-1 text-xs px-5 py-2 border-hidden w-full", config.color)}>
               <IconComponent className="h-3 w-3" />
               <span>{config.label}</span>
             </Badge>
@@ -104,12 +112,13 @@ export function InventoryTable({ data, className }: InventoryTableProps) {
     }
   ];
 
+
   return (
-    <div className={cn("bg-white rounded-xl shadow-sm border border-gray-100", className)}>
-      <div className="p-6 border-b border-gray-100">
+    <div className={cn("bg-white rounded-xl  border border-gray-100", className)}>
+      <div className="p-4 border-b border-gray-100">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-gray-900">Top Products</h3>
-          <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+          <h3 className="text-base font-semibold text-gray-900">Top Selling Products</h3>
+          <button className="text-xs text-blue-600 hover:text-blue-700 font-medium">
             View All
           </button>
         </div>
@@ -117,20 +126,11 @@ export function InventoryTable({ data, className }: InventoryTableProps) {
       
       <div className="overflow-x-auto">
         <Table className="[&_tr]:border-b [&_tr]:border-gray-200">
-          <THead className="bg-neutral-100">
-            <Tr>
-              {columns.map((column) => (
-                <Th key={column.key} className="text-left">
-                  {column.header}
-                </Th>
-              ))}
-            </Tr>
-          </THead>
           <TBody>
-            {data.map((item) => (
+            {paginatedData.map((item) => (
               <Tr key={item.id} className="hover:bg-gray-50">
                 {columns.map((column) => (
-                  <Td key={column.key}>
+                  <Td key={column.key} className="py-2 px-3">
                     {column.render ? column.render(item) : item[column.key as keyof TopProduct]}
                   </Td>
                 ))}
@@ -138,6 +138,19 @@ export function InventoryTable({ data, className }: InventoryTableProps) {
             ))}
           </TBody>
         </Table>
+      </div>
+
+      {/* Pagination */}
+      <div className="p-4 border-t border-gray-100">
+        <PaginationWrapper
+          totalRows={data.length}
+          page={currentPage}
+          rowsPerPage={rowsPerPage}
+          defaultRowsPerPage={5}
+          rowsPerPageOptions={[5, 10, 20]}
+          onPageChange={setCurrentPage}
+          onRowsPerPageChange={setRowsPerPage}
+        />
       </div>
     </div>
   );

@@ -31,7 +31,7 @@ export function StatCard({
 }: StatCardProps) {
   return (
     <div className={cn(
-      "bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200",
+      "bg-white rounded-xl p-6  border border-gray-100 hover:shadow-md transition-all duration-200",
       className
     )}>
       <div className="flex items-center justify-between">
