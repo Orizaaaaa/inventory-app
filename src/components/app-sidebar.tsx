@@ -57,14 +57,14 @@ const data = {
       isActive: true,
     },
     {
-      title: "Data Vendor",
-      url: "/data-vendor",
-      icon: Building2,
-    },
-    {
       title: "Data Produk",
       url: "/data-produk",
       icon: Package,
+    },
+    {
+      title: "Data Vendor",
+      url: "/data-vendor",
+      icon: Building2,
     },
     {
       title: "Data Bahan Baku",

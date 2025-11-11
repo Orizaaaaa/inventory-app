@@ -1,5 +1,5 @@
 import { Dashboard } from "@/components/layout"
-import { HomeIcon, Package, TrendingUp, AlertTriangle, DollarSign } from "lucide-react";
+import { Package, TrendingUp, AlertTriangle, DollarSign, LayoutDashboard } from "lucide-react";
 import { StatCard, StatCardGrid, } from "@/components/ui/stat-cards";
 import { InventoryTable } from "@/components/ui/inventory-table";
 import RevenueChart from "@/components/ui/dashboard/revenue-chart";
@@ -16,7 +16,7 @@ export default function Home() {
     return (
         <Dashboard
             breadcrumbItems={[
-                { label: "Dashboard", isCurrentPage: true, icon: HomeIcon }
+                { label: "Dashboard", isCurrentPage: true, icon: LayoutDashboard }
             ]}
 
         >
