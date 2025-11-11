@@ -2,8 +2,6 @@ import { Dashboard } from "@/components/layout"
 import { HomeIcon, Package, TrendingUp, AlertTriangle, DollarSign } from "lucide-react";
 import { StatCard, StatCardGrid, } from "@/components/ui/stat-cards";
 import { InventoryTable } from "@/components/ui/inventory-table";
-import InventoryOverview from "@/components/ui/dashboard/inventory-overview";
-import OrderStatistics from "@/components/ui/dashboard/order-statistics";
 import RevenueChart from "@/components/ui/dashboard/revenue-chart";
 import ProfitByCategory from "@/components/ui/dashboard/profit-by-category";
 import {
@@ -22,11 +20,11 @@ export default function Home() {
             ]}
 
         >
- 
+
             <div className="space-y-6 mt-6">
 
-   {/* Main Stats Cards */}
-   <StatCardGrid>
+                {/* Main Stats Cards */}
+                <StatCardGrid>
                     <StatCard
                         title="Total Products"
                         value={inventoryStats.totalProducts}
@@ -72,16 +70,16 @@ export default function Home() {
                         iconColor="text-red-600"
                     />
                 </StatCardGrid>
-               
 
-              <div className="grid grid-cols-2 gap-4">
-                <ProfitByCategory />
-                <RevenueChart />
-              </div>
 
-              {/* <InventoryOverview /> */}
+                <div className="grid grid-cols-2 gap-4">
+                    <ProfitByCategory />
+                    <RevenueChart />
+                </div>
 
-              <InventoryTable data={topProducts} />
+                {/* <InventoryOverview /> */}
+
+                <InventoryTable data={topProducts} />
 
             </div>
         </Dashboard>
