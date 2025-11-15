@@ -6,6 +6,7 @@ import { InputCurrency } from "@/components/ui/forms/input-currency";
 import { Select } from "@/components/ui/forms/select-field";
 import { productCreateSchema, type ProductFormData, type Product } from "../../types/main";
 import { useEffect, useImperativeHandle, forwardRef } from "react";
+import CreateProductButton from "../action/create-product-button";
 
 type ProductFormProps = {
   mode?: "create" | "edit";
@@ -238,6 +239,7 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
             className="md:col-span-2"
           />
         </div>
+        <CreateProductButton form={form} />
       </form>
     );
   }

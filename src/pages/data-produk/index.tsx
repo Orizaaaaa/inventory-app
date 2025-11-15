@@ -8,8 +8,10 @@ import {
 } from "@/data/inventory-data";
 import TableProduct from "@/modules/product/components/table-product";
 import { useProduct } from "@/modules/product/api/get-all-product";
+import { useNavigate } from "@/routes";
 import { AlertTriangle, DollarSign, Package, Plus, TrendingUp } from "lucide-react";
 export default function DataProduk() {
+    const navigate = useNavigate();
     const { data: productResponse, isLoading, isError } = useProduct();
     
     const products = productResponse?.data || [];
@@ -68,7 +70,7 @@ export default function DataProduk() {
                 </StatCardGrid>
                 <div className="bg-white rounded-t-2xl">
                     <div className="flex justify-end pt-4 px-4">
-                        <Button icon={<Plus />} variant={"gradien"} text={" Add Product"} />
+                        <Button onClick={() => navigate("/data-produk/create" as Parameters<typeof navigate>[0])} icon={<Plus />} variant={"gradien"} text={" Add Product"} />
                     </div>
                     <div className="flex justify-between px-4 py-4">
                         <SearchInput placeholder="Search Product" />

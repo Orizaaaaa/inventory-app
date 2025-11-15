@@ -15,6 +15,11 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useModalStore } from '@/hooks/use-modal-store';
+import { useModalConfirmStore } from '@/hooks/use-modal-confirm-store';
+import ModalFailed from '../ui/modals/modal-failed';
+import ModalSuccess from '../ui/modals/modal-success';
+import ModalConfirm from '../ui/modals/modal-confirm';
 
 interface DashboardProps {
     children: React.ReactNode;
@@ -34,6 +39,9 @@ export function Dashboard({
     title,
     description 
 }: DashboardProps) {
+    const modalSuccess = useModalStore("modalSuccess");
+  const modalFailed = useModalStore("modalFailed");
+  const modalSubmit = useModalConfirmStore("modalSubmit");
     return (
         <SidebarProvider>
             <AppSidebar />
@@ -88,6 +96,26 @@ export function Dashboard({
                     {children}
                 </div>
             </SidebarInset>
+            <ModalFailed
+        visible={modalFailed.visible}
+        message={modalFailed.message}
+        setOpen={modalFailed.hideModal}
+      />
+      <ModalSuccess
+        visible={modalSuccess.visible}
+        message={modalSuccess.message}
+        onClose={modalSuccess.hideModal}
+      />
+      <ModalConfirm
+        visible={modalSubmit.visible}
+        loading={modalSubmit.loading}
+        heading={modalSubmit.options.heading}
+        message={modalSubmit.options.message}
+        btnText={modalSubmit.options.btnText}
+        onSubmit={modalSubmit.onConfirm}
+        onCancel={modalSubmit.options.onCancel}
+      />
+
         </SidebarProvider>
     );
 }

@@ -5,6 +5,9 @@ import type { UseFormReturn } from "react-hook-form";
 import type { ProductFormData } from "../../types/main";
 import { useCreateProduct } from "../../api/create-product";
 import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
+import ModalConfirm from "@/components/ui/modals/modal-confirm";
+import ModalSuccess from "@/components/ui/modals/modal-success";
+import ModalFailed from "@/components/ui/modals/modal-failed";
 
 type CreateProductButtonProps = {
   form: UseFormReturn<ProductFormData, ProductFormData>;
@@ -48,13 +51,14 @@ export default function CreateProductButton({ form, onSuccess }: CreateProductBu
 
   return (
     <div>
-      <Button 
-        variant={"gradien"} 
-        text="Submit" 
-        className="w-[150px]" 
-        onClick={handleCreate} 
-        disabled={!isValid} 
+      <Button
+        variant={"gradien"}
+        text="Submit"
+        className="w-[150px]"
+        onClick={handleCreate}
+        disabled={!isValid}
       />
+      
     </div>
   );
 }
