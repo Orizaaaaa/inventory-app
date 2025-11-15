@@ -1,12 +1,12 @@
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import { existsSync } from 'fs';
+import { join } from 'path';
 
 const packageName = '@rollup/rollup-linux-x64-gnu';
-const nodeModulesPath = path.join(process.cwd(), 'node_modules', packageName);
+const nodeModulesPath = join(process.cwd(), 'node_modules', packageName);
 
 // Check if already installed
-if (fs.existsSync(nodeModulesPath)) {
+if (existsSync(nodeModulesPath)) {
   console.log(`${packageName} already installed`);
   process.exit(0);
 }
