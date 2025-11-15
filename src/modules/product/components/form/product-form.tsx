@@ -7,12 +7,15 @@ import { Select } from "@/components/ui/forms/select-field";
 import { productCreateSchema, type ProductFormData, type Product } from "../../types/main";
 import { useEffect, useImperativeHandle, forwardRef } from "react";
 import CreateProductButton from "../action/create-product-button";
+import UpdateProductButton from "../action/update-product-button";
 import { Package, DollarSign, MapPin, BarChart3 } from "lucide-react";
 
 type ProductFormProps = {
   mode?: "create" | "edit";
   initialData?: Product;
   onSubmit?: (data: ProductFormData) => void;
+  productId?: string;
+  onUpdateSuccess?: () => void;
 };
 
 const unitOptions = [
@@ -34,7 +37,7 @@ const categoryOptions = [
 ];
 
 const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>(
-  ({ mode = "create", initialData, onSubmit }, ref) => {
+  ({ mode = "create", initialData, onSubmit, productId, onUpdateSuccess }, ref) => {
     const getDefaultValues = (): Partial<ProductFormData> => {
       if (mode === "edit" && initialData) {
         return {
@@ -294,7 +297,11 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
 
         {/* Submit Button */}
         <div className="flex justify-end pt-4 border-t border-gray-200">
-          <CreateProductButton form={form} />
+          {mode === "edit" && productId ? (
+            <UpdateProductButton form={form} id={productId} onSuccess={onUpdateSuccess} />
+          ) : (
+            <CreateProductButton form={form} />
+          )}
         </div>
       </form>
     );

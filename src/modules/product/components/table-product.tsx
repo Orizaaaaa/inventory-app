@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import type { Product } from "../types/main";
 import { Edit, EyeIcon, Trash } from "lucide-react";
 import PaginationWrapper from "@/components/ui/pagination-wrapper";
+import { useNavigate } from "@/routes";
 interface TableProductProps {
     data: Product[]
     // loading: boolean;
@@ -15,6 +16,7 @@ const TableProduct: React.FC<TableProductProps> = ({
 }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const navigate = useNavigate();
 
 
     return (
@@ -43,7 +45,7 @@ const TableProduct: React.FC<TableProductProps> = ({
                             <Tr key={item.id || item._id}>
                                 <Td className="flex gap-3">
                                     <Button icon={<EyeIcon />} variant={"primary"} size={"iconMd"} />
-                                    <Button icon={<Edit />} variant={"warning"} size={"iconMd"} />
+                                    <Button onClick={() => navigate(`/data-produk/edit/${item._id}` as Parameters<typeof navigate>[0])} icon={<Edit />} variant={"warning"} size={"iconMd"} />
                                     <Button icon={<Trash />} variant={"dangers"} size={"iconMd"} />
                                 </Td>
                                 <Td className="whitespace-normal">{item.product_name}</Td>
