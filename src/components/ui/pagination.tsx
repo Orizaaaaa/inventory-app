@@ -46,7 +46,7 @@ type PaginationLinkProps = {
 function PaginationLink({
   className,
   isActive,
-  size = "icon-sm",
+  size = "iconSm",
   ...props
 }: PaginationLinkProps) {
   return (
@@ -68,7 +68,7 @@ function PaginationLink({
 
 function PaginationPrevious({
   className,
-  size = "icon-sm",
+  size = "iconSm",
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
   return (
@@ -86,7 +86,7 @@ function PaginationPrevious({
 
 function PaginationNext({
   className,
-  size = "icon-sm",
+  size = "iconSm",
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
   return (

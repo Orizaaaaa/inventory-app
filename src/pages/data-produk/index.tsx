@@ -3,8 +3,50 @@ import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
 import {
     inventoryStats,
 } from "@/data/inventory-data";
+import TableProduct from "@/modules/product/components/table-product";
 import { AlertTriangle, DollarSign, Package, TrendingUp } from "lucide-react";
 export default function DataProduk() {
+    const data = [
+        {
+            hpp_per_piece: 12500.5,
+            product_name: "Kopi Arabika Premium",
+            category: "Minuman",
+            code: "BRG-001",
+            name: "Kopi Arabika 250gr",
+            variation: "250gr / Bubuk Halus",
+            unit: "pcs",
+            stock_in: 100,
+            stock_out: 25,
+            total_stock: 75,
+            location: "Gudang Utama"
+        },
+        {
+            hpp_per_piece: 12500.5,
+            product_name: "Kopi Arabika Premium",
+            category: "Minuman",
+            code: "BRG-001",
+            name: "Kopi Arabika 250gr",
+            variation: "250gr / Bubuk Halus",
+            unit: "pcs",
+            stock_in: 100,
+            stock_out: 25,
+            total_stock: 75,
+            location: "Gudang Utama"
+        },
+        {
+            hpp_per_piece: 12500.5,
+            product_name: "Kopi Arabika Premium",
+            category: "Minuman",
+            code: "BRG-001",
+            name: "Kopi Arabika 250gr",
+            variation: "250gr / Bubuk Halus",
+            unit: "pcs",
+            stock_in: 100,
+            stock_out: 25,
+            total_stock: 75,
+            location: "Gudang Utama"
+        },
+    ];
     return (
         <Dashboard
             breadcrumbItems={[
@@ -59,6 +101,7 @@ export default function DataProduk() {
                     />
                 </StatCardGrid>
 
+                <TableProduct data={data} />
             </div>
 
 
