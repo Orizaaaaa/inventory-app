@@ -1,13 +1,9 @@
-import React from 'react';
+
 import {
   Home,
-  Users,
   Package,
   Settings,
   BarChart3,
-  FileText,
-  ShoppingCart,
-  UserCheck
 } from 'lucide-react';
 import { Dashboard } from './Dashboard';
 

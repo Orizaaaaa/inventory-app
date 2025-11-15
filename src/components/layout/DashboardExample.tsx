@@ -1,5 +1,4 @@
-import React from 'react';
-import { Home, BarChart3, TrendingUp } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { Dashboard } from './Dashboard';
 
 // Contoh penggunaan komponen Dashboard
