@@ -1,4 +1,5 @@
 import { Dashboard } from "@/components/layout";
+import { Button } from "@/components/ui/button";
 import FilterSelect from "@/components/ui/filter-select";
 import { SearchInput } from "@/components/ui/search-input";
 import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
@@ -6,7 +7,7 @@ import {
     inventoryStats,
 } from "@/data/inventory-data";
 import TableProduct from "@/modules/product/components/table-product";
-import { AlertTriangle, DollarSign, Package, TrendingUp } from "lucide-react";
+import { AlertTriangle, DollarSign, Package, Plus, TrendingUp } from "lucide-react";
 export default function DataProduk() {
     const data = [
         {
@@ -103,6 +104,9 @@ export default function DataProduk() {
                     />
                 </StatCardGrid>
                 <div className="bg-white rounded-t-2xl">
+                    <div className="flex justify-end pt-4 px-4">
+                        <Button icon={<Plus />} variant={"gradien"} text={" Add Product"} />
+                    </div>
                     <div className="flex justify-between px-4 py-4">
                         <SearchInput placeholder="Search Product" />
                         <div className="flex gap-3">
@@ -129,6 +133,8 @@ export default function DataProduk() {
                             />
                         </div>
                     </div>
+
+
 
                     <TableProduct data={data} />
                 </div>

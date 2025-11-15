@@ -1,19 +1,14 @@
-import { create } from "zustand";
+import { useModalStoreImpl } from "@/stores/modal-store";
 
-interface ModalState {
-  visible: boolean;
-  openModal: () => void;
-  closeModal: () => void;
-  hideModal: () => void;
-}
+export const useModalStore = (key: string) => {
+  const store = useModalStoreImpl();
 
-export const useModalStore = (modalName: string) => {
-  const store = create<ModalState>((set) => ({
-    visible: false,
-    openModal: () => set({ visible: true }),
-    closeModal: () => set({ visible: false }),
-    hideModal: () => set({ visible: false }),
-  }));
+  const openModal = (message?: string, onClose?: () => void) =>
+    store.openModal(key, message, onClose);
+  const hideModal = () => store.hideModal(key);
 
-  return store();
+  const visible = store.modals[key]?.visible || false;
+  const message = store.modals[key]?.message || "";
+
+  return { visible, message, openModal, hideModal };
 };
