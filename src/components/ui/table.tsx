@@ -24,7 +24,7 @@ const Table = ({
     <div
       data-slot="table-container"
       className={cn(
-        "relative w-full min-w-0",
+        "relative w-full",
         overflow ? "overflow-y-auto rounded-t-lg" : "overflow-x-auto",
         containerClassName
       )}
@@ -33,7 +33,7 @@ const Table = ({
       <table
         data-slot="table"
         className={cn(
-          "w-full border-collapse border-spacing-0 **:border-gray-300 min-w-0 max-w-none rounded-lg caption-bottom",
+          "w-full border-collapse border-spacing-0 [&_*]:border-gray-300 min-w-0 max-w-none rounded-lg caption-bottom",
           className
         )}
         {...props}
@@ -97,7 +97,7 @@ const Th = ({ className, ...props }: React.ComponentProps<"th">) => {
     <th
       data-slot="table-head"
       className={cn(
-        "h-12 px-2 font-semibold text-sm text-left align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0",
+        "h-12 px-2 font-semibold text-sm text-left align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props}
@@ -110,7 +110,7 @@ const Td = ({ className, ...props }: React.ComponentProps<"td">) => {
     <td
       data-slot="table-cell"
       className={cn(
-        "px-2 py-3 align-middle text-sm whitespace-nowrap [&:has([role=checkbox])]:pr-0 ",
+        "px-2 py-3 align-middle text-sm whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props}

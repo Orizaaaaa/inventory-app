@@ -37,7 +37,7 @@ export function Dashboard({
     return (
         <SidebarProvider>
             <AppSidebar />
-            <SidebarInset className='bg-gray-100'>
+            <SidebarInset className='bg-gray-100 overflow-x-hidden'>
                 <header className="flex h-12 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-10 bg-white mx-4 mt-3 mb-1 rounded-lg header-card-shadow border-0">
                     <div className="flex items-center gap-2 px-3">
                         <SidebarTrigger className="-ml-1" />

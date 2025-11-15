@@ -3,7 +3,7 @@ import { Table, TBody, Th, THead, Tr, Td } from "@/components/ui/table";
 import { formatRupiah } from "@/utils/format";
 import { Button } from "@/components/ui/button";
 import type { ProductType } from "../types/type";
-import { EyeIcon } from "lucide-react";
+import { Edit, EyeIcon, Trash } from "lucide-react";
 import PaginationWrapper from "@/components/ui/pagination-wrapper";
 interface TableProductProps {
     data: ProductType[]
@@ -18,16 +18,16 @@ const TableProduct: React.FC<TableProductProps> = ({
 
 
     return (
-        <div className="border-none shadow-none bg-white rounded-2xl w-full min-w-0 max-w-full overflow-x-hidden">
-            <div className="p-6">
+        <div className="border-none shadow-none bg-white rounded-2xl w-full min-w-0 max-w-full ">
+            <div className="p-3">
                 <Table
                     className="[&_tr]:border-b [&_tr]:border-gray-200"
                 >
                     <THead className="bg-slate-200 rounded-t-xl">
                         <Tr>
-                            <Th className="font-medium text-end pr-9 rounded-tr-2xl">Action</Th>
+                            <Th className="font-medium  pr-9 ">Action</Th>
                             <Th className="font-medium">Product Name</Th>
-                            <Th className="font-medium rounded-tl-2xl">Code</Th>
+                            <Th className="font-medium ">Code</Th>
                             <Th className="font-medium hidden md:table-cell">Category</Th>
                             <Th className="font-medium hidden lg:table-cell">Variation</Th>
                             <Th className="w-20 font-medium">Unit</Th>
@@ -41,8 +41,10 @@ const TableProduct: React.FC<TableProductProps> = ({
                     <TBody className="bg-white">
                         {data.map((item, index) => (
                             <Tr key={index}>
-                                <Td className="flex">
-                                    <Button icon={<EyeIcon />} variant={"primary"} size="sm" />
+                                <Td className="flex gap-3">
+                                    <Button icon={<EyeIcon />} variant={"primary"} size={"iconMd"} />
+                                    <Button icon={<Edit />} variant={"warning"} size={"iconMd"} />
+                                    <Button icon={<Trash />} variant={"dangers"} size={"iconMd"} />
                                 </Td>
                                 <Td className="whitespace-normal">{item.product_name}</Td>
                                 <Td className="font-medium">{item.code}</Td>
