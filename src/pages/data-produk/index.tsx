@@ -1,4 +1,6 @@
 import { Dashboard } from "@/components/layout";
+import FilterSelect from "@/components/ui/filter-select";
+import { SearchInput } from "@/components/ui/search-input";
 import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
 import {
     inventoryStats,
@@ -100,8 +102,36 @@ export default function DataProduk() {
                         iconColor="text-red-600"
                     />
                 </StatCardGrid>
+                <div className="bg-white rounded-t-2xl">
+                    <div className="flex justify-between px-4 py-4">
+                        <SearchInput placeholder="Search Product" />
+                        <div className="flex gap-3">
+                            <FilterSelect
+                                placeholder="All Status"
+                                options={[
+                                    { label: "SUBMITTED", value: "SUBMITTED" },
+                                    { label: "APPROVED", value: "APPROVED" },
+                                ]}
+                            />
+                            <FilterSelect
+                                placeholder="Category"
+                                options={[
+                                    { label: "SUBMITTED", value: "SUBMITTED" },
+                                    { label: "APPROVED", value: "APPROVED" },
+                                ]}
+                            />
+                            <FilterSelect
+                                placeholder="Stock Status"
+                                options={[
+                                    { label: "SUBMITTED", value: "SUBMITTED" },
+                                    { label: "APPROVED", value: "APPROVED" },
+                                ]}
+                            />
+                        </div>
+                    </div>
 
-                <TableProduct data={data} />
+                    <TableProduct data={data} />
+                </div>
             </div>
 
 
