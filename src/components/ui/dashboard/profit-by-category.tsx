@@ -38,7 +38,7 @@ const totalProfit = profitData.reduce((sum, item) => sum + item.value, 0);
 
 export default function ProfitByCategory() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const chartRef = useRef<Chart | null>(null);
+  const chartRef = useRef<Chart<"doughnut", number[], string> | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Chart, registerables } from "chart.js";
 import type { ChartConfiguration, TooltipItem } from "chart.js";
 
@@ -24,8 +24,7 @@ const getDateForDay = (dayIndex: number) => {
 
 export default function RevenueChart() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const chartRef = useRef<Chart | null>(null);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const chartRef = useRef<Chart<"line", number[], string> | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -86,7 +85,9 @@ export default function RevenueChart() {
                 return getDateForDay(index);
               },
               label: (item: TooltipItem<"line">) => {
-                return `$${item.parsed.y.toLocaleString()}`;
+                const value = item.parsed.y;
+                if (value === null || value === undefined) return "$0";
+                return `$${value.toLocaleString()}`;
               },
             },
           },
@@ -135,11 +136,10 @@ export default function RevenueChart() {
         animation: {
           duration: 400,
         },
-        onHover: (event, activeElements) => {
+        onHover: (_event, activeElements) => {
+          // Hover handling can be added here if needed
           if (activeElements.length > 0) {
-            setHoveredIndex(activeElements[0].index);
-          } else {
-            setHoveredIndex(null);
+            // Handle hover state if needed
           }
         },
       },

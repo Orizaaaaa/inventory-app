@@ -10,7 +10,7 @@ const QUANTITY = [150, 647, 330, 650, 780];
 
 export default function SingleBarGradient() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const chartRef = useRef<Chart | null>(null);
+  const chartRef = useRef<Chart<"bar", number[], string> | null>(null);
 
   useEffect(() => {
     const ctx = canvasRef.current!.getContext("2d")!;
