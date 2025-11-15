@@ -5,9 +5,7 @@ import type { UseFormReturn } from "react-hook-form";
 import type { ProductFormData } from "../../types/main";
 import { useCreateProduct } from "../../api/create-product";
 import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
-import ModalConfirm from "@/components/ui/modals/modal-confirm";
-import ModalSuccess from "@/components/ui/modals/modal-success";
-import ModalFailed from "@/components/ui/modals/modal-failed";
+import { useNavigate } from "@/routes";
 
 type CreateProductButtonProps = {
   form: UseFormReturn<ProductFormData, ProductFormData>;
@@ -15,6 +13,7 @@ type CreateProductButtonProps = {
 };
 
 export default function CreateProductButton({ form, onSuccess }: CreateProductButtonProps) {
+  const navigate = useNavigate();
   const modalSuccess = useModalStore("modalSuccess");
   const modalFailed = useModalStore("modalFailed");
   const modalSubmit = useModalConfirmStore("modalSubmit");
@@ -39,6 +38,7 @@ export default function CreateProductButton({ form, onSuccess }: CreateProductBu
             "Your data has been successfully submitted.",
             () => {
               onSuccess?.();
+              navigate("/data-produk" as Parameters<typeof navigate>[0]);
             }
           );
         } catch (error) {

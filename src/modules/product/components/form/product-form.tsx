@@ -7,6 +7,7 @@ import { Select } from "@/components/ui/forms/select-field";
 import { productCreateSchema, type ProductFormData, type Product } from "../../types/main";
 import { useEffect, useImperativeHandle, forwardRef } from "react";
 import CreateProductButton from "../action/create-product-button";
+import { Package, DollarSign, MapPin, BarChart3 } from "lucide-react";
 
 type ProductFormProps = {
   mode?: "create" | "edit";
@@ -34,35 +35,28 @@ const categoryOptions = [
 
 const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>(
   ({ mode = "create", initialData, onSubmit }, ref) => {
+    const getDefaultValues = (): Partial<ProductFormData> => {
+      if (mode === "edit" && initialData) {
+        return {
+          hpp_per_piece: initialData.hpp_per_piece,
+          product_name: initialData.product_name,
+          category: initialData.category,
+          code: initialData.code,
+          name: initialData.name,
+          variation: initialData.variation,
+          unit: initialData.unit,
+          stock_in: initialData.stock_in,
+          stock_out: initialData.stock_out,
+          total_stock: initialData.total_stock,
+          location: initialData.location,
+        };
+      }
+      return {};
+    };
+
     const form = useForm<ProductFormData>({
       resolver: zodResolver(productCreateSchema),
-      defaultValues: initialData
-        ? {
-            hpp_per_piece: initialData.hpp_per_piece,
-            product_name: initialData.product_name,
-            category: initialData.category,
-            code: initialData.code,
-            name: initialData.name,
-            variation: initialData.variation,
-            unit: initialData.unit,
-            stock_in: initialData.stock_in,
-            stock_out: initialData.stock_out,
-            total_stock: initialData.total_stock,
-            location: initialData.location,
-          }
-        : {
-            hpp_per_piece: 0,
-            product_name: "",
-            category: "",
-            code: "",
-            name: "",
-            variation: "",
-            unit: "",
-            stock_in: 0,
-            stock_out: 0,
-            total_stock: 0,
-            location: "",
-          },
+      defaultValues: getDefaultValues(),
     });
 
     const {
@@ -107,139 +101,201 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
     }, [initialData, mode, reset]);
 
     return (
-      <form onSubmit={onSubmit ? handleSubmit(onSubmit) : (e) => e.preventDefault()} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* HPP Per Piece */}
-          <Controller
-            name="hpp_per_piece"
-            control={control}
-            render={({ field }) => (
-              <InputCurrency
-                label="HPP Per Piece"
-                required
-                error={errors.hpp_per_piece?.message}
-                value={field.value}
-                onChange={(value) => field.onChange(value || 0)}
-              />
-            )}
-          />
+      <form onSubmit={onSubmit ? handleSubmit(onSubmit) : (e) => e.preventDefault()} className="space-y-6">
+        {/* Product Information Section */}
+        <div className="bg-gradient-to-br from-blue-500/25 to-purple-50/50 rounded-xl p-6 border border-blue-100/50">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg">
+              <Package className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">Informasi Produk</h3>
+              <p className="text-sm text-gray-600">Detail informasi produk yang akan ditambahkan</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Product Name */}
+            <Input
+              label="Product Name"
+              required
+              error={errors.product_name?.message}
+              {...register("product_name")}
+            />
 
-          {/* Product Name */}
-          <Input
-            label="Product Name"
-            required
-            error={errors.product_name?.message}
-            {...register("product_name")}
-          />
+            {/* Code */}
+            <Input
+              label="Code"
+              required
+              error={errors.code?.message}
+              {...register("code")}
+            />
 
-          {/* Category */}
-          <Controller
-            name="category"
-            control={control}
-            render={({ field }) => (
-              <Select
-                label="Category"
-                required
-                datalist={categoryOptions}
-                defValue={field.value || undefined}
-                onChange={field.onChange}
-                errorMsg={errors.category?.message}
-                placeholder="Pilih Category"
-              />
-            )}
-          />
+            {/* Name */}
+            <Input
+              label="Name"
+              required
+              error={errors.name?.message}
+              {...register("name")}
+            />
 
-          {/* Code */}
-          <Input
-            label="Code"
-            required
-            error={errors.code?.message}
-            {...register("code")}
-          />
+            {/* Variation */}
+            <Input
+              label="Variation"
+              required
+              error={errors.variation?.message}
+              {...register("variation")}
+            />
 
-          {/* Name */}
-          <Input
-            label="Name"
-            required
-            error={errors.name?.message}
-            {...register("name")}
-          />
+            {/* Category */}
+            <Controller
+              name="category"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="Category"
+                  required
+                  datalist={categoryOptions}
+                  defValue={field.value || undefined}
+                  onChange={field.onChange}
+                  errorMsg={errors.category?.message}
+                  placeholder="Pilih Category"
+                />
+              )}
+            />
 
-          {/* Variation */}
-          <Input
-            label="Variation"
-            required
-            error={errors.variation?.message}
-            {...register("variation")}
-          />
-
-          {/* Unit */}
-          <Controller
-            name="unit"
-            control={control}
-            render={({ field }) => (
-              <Select
-                label="Unit"
-                required
-                datalist={unitOptions}
-                defValue={field.value || undefined}
-                onChange={field.onChange}
-                errorMsg={errors.unit?.message}
-                placeholder="Pilih Unit"
-              />
-            )}
-          />
-
-          {/* Stock In */}
-          <Controller
-            name="stock_in"
-            control={control}
-            render={({ field }) => (
-              <InputNumber
-                label="Stock In"
-                required
-                min={0}
-                error={errors.stock_in?.message}
-                value={field.value}
-                onChange={(e) => field.onChange(Number(e.target.value) || 0)}
-              />
-            )}
-          />
-
-          {/* Stock Out */}
-          <Controller
-            name="stock_out"
-            control={control}
-            render={({ field }) => (
-              <InputNumber
-                label="Stock Out"
-                required
-                min={0}
-                error={errors.stock_out?.message}
-                value={field.value}
-                onChange={(e) => field.onChange(Number(e.target.value) || 0)}
-              />
-            )}
-          />
-
-          {/* Total Stock (auto calculated, read-only) */}
-          <InputNumber
-            label="Total Stock"
-            required
-            disabled
-            value={watch("total_stock")}
-          />
-
-          {/* Location */}
-          <Input
-            label="Location"
-            required
-            error={errors.location?.message}
-            {...register("location")}
-            className="md:col-span-2"
-          />
+            {/* Unit */}
+            <Controller
+              name="unit"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="Unit"
+                  required
+                  datalist={unitOptions}
+                  defValue={field.value || undefined}
+                  onChange={field.onChange}
+                  errorMsg={errors.unit?.message}
+                  placeholder="Pilih Unit"
+                />
+              )}
+            />
+          </div>
         </div>
-        <CreateProductButton form={form} />
+
+        {/* Pricing Section */}
+        <div className="bg-gradient-to-br from-green-50/50 to-emerald-50/50 rounded-xl p-6 border border-green-100/50">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
+              <DollarSign className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">Harga & Biaya</h3>
+              <p className="text-sm text-gray-600">Informasi harga per unit produk</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* HPP Per Piece */}
+            <Controller
+              name="hpp_per_piece"
+              control={control}
+              render={({ field }) => (
+                <InputCurrency
+                  label="HPP Per Piece"
+                  required
+                  error={errors.hpp_per_piece?.message}
+                  value={field.value}
+                  onChange={(value) => field.onChange(value || 0)}
+                />
+              )}
+            />
+          </div>
+        </div>
+
+        {/* Stock Management Section */}
+        <div className="bg-gradient-to-br from-orange-50/50 to-amber-50/50 rounded-xl p-6 border border-orange-100/50">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg">
+              <BarChart3 className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">Manajemen Stok</h3>
+              <p className="text-sm text-gray-600">Kelola stok masuk, keluar, dan total stok</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Stock In */}
+            <Controller
+              name="stock_in"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  label="Stock In"
+                  required
+                  min={0}
+                  error={errors.stock_in?.message}
+                  value={field.value}
+                  onChange={(e) => field.onChange(Number(e.target.value) || 0)}
+                />
+              )}
+            />
+
+            {/* Stock Out */}
+            <Controller
+              name="stock_out"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  label="Stock Out"
+                  required
+                  min={0}
+                  error={errors.stock_out?.message}
+                  value={field.value}
+                  onChange={(e) => field.onChange(Number(e.target.value) || 0)}
+                />
+              )}
+            />
+
+            {/* Total Stock (auto calculated, read-only) */}
+            <div className="relative">
+              <InputNumber
+                label="Total Stock"
+                required
+                disabled
+                value={watch("total_stock")}
+              />
+              <div className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                Auto
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Location Section */}
+        <div className="bg-gradient-to-br from-indigo-50/50 to-violet-50/50 rounded-xl p-6 border border-indigo-100/50">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-lg">
+              <MapPin className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">Lokasi Penyimpanan</h3>
+              <p className="text-sm text-gray-600">Tentukan lokasi penyimpanan produk</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Location */}
+            <Input
+              label="Location"
+              required
+              error={errors.location?.message}
+              {...register("location")}
+            />
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex justify-end pt-4 border-t border-gray-200">
+          <CreateProductButton form={form} />
+        </div>
       </form>
     );
   }
