@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Star } from "lucide-react";
 
 const StarIcon = ({ filled, onClick, readonly, className }: { filled: boolean; onClick: () => void; readonly?: boolean; className?: string }) => (

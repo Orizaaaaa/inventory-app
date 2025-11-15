@@ -1,4 +1,5 @@
 import type { DynamicColumn } from "@/types/dynamic-columns";
+import type React from "react";
 
 export type ColumnConfig<T> = {
   key: keyof T;

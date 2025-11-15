@@ -30,7 +30,6 @@ export default function FileUploadInput({
   existingFileUrl,
 }: FileUploadProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState(false);
   const [useExisting, setUseExisting] = useState(!!existingFileName);
   const modalFailed = useModalStore("modalFailed");
 
@@ -58,14 +57,15 @@ export default function FileUploadInput({
 
   const handlePreview = () => {
     if (file) {
-      if (file.type.startsWith("image/")) setPreview(true);
-      else {
+      if (file.type.startsWith("image/")) {
+        // Preview functionality commented out - modal component not available
+      } else {
         const url = URL.createObjectURL(file);
         window.open(url, "_blank");
         setTimeout(() => URL.revokeObjectURL(url), 1000);
       }
     } else if (useExisting && existingFileUrl) {
-      setPreview(true);
+      // Preview functionality commented out - modal component not available
     }
   };
 

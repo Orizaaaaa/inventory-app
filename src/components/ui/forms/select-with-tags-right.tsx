@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SelectBase from "react-select";
 import type { MultiValue } from "react-select";
 import { cn } from "@/utils/cn";
