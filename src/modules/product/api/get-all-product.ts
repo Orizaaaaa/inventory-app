@@ -1,13 +1,13 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { api } from "@/libs/api";
 import type { TQueryConfig } from "@/libs/react-query";
-import type { ProductResponse } from "../types/main";
+import type { Product, ProductResponse } from "../types/main";
 
-export const getProduct = async (params: Record<string, any> = {}): Promise<ProductResponse> => {
+export const getProduct = async (params: Record<string, Product> = {}): Promise<ProductResponse> => {
     return await api.get("/products/list", { params });
 };
 
-export const getProductQueryOptions = (params: Record<string, any> = {}) => {
+export const getProductQueryOptions = (params: Record<string, Product> = {}) => {
     return queryOptions({
         queryKey: ["product", params],
         queryFn: () => getProduct(params),
@@ -15,7 +15,7 @@ export const getProductQueryOptions = (params: Record<string, any> = {}) => {
 };
 
 export interface ProductOptions {
-    params?: Record<string, any>;
+    params?: Record<string, Product>;
     queryConfig?: TQueryConfig<typeof getProductQueryOptions>;
 }
 

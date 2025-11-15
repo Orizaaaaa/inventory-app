@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Table, TBody, Th, THead, Tr, Td } from "@/components/ui/table";
 import { formatRupiah } from "@/utils/format";
 import { Button } from "@/components/ui/button";
-import type { ProductType } from "../types/type";
+import type { Product } from "../types/main";
 import { Edit, EyeIcon, Trash } from "lucide-react";
 import PaginationWrapper from "@/components/ui/pagination-wrapper";
 interface TableProductProps {
-    data: ProductType[]
+    data: Product[]
     // loading: boolean;
 }
 
@@ -39,8 +39,8 @@ const TableProduct: React.FC<TableProductProps> = ({
                         </Tr>
                     </THead>
                     <TBody className="bg-white">
-                        {data.map((item, index) => (
-                            <Tr key={index}>
+                        {data.map((item) => (
+                            <Tr key={item.id || item._id}>
                                 <Td className="flex gap-3">
                                     <Button icon={<EyeIcon />} variant={"primary"} size={"iconMd"} />
                                     <Button icon={<Edit />} variant={"warning"} size={"iconMd"} />
