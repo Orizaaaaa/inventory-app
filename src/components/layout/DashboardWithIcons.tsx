@@ -1,10 +1,10 @@
 import React from 'react';
-import { 
-  Home, 
-  Users, 
-  Package, 
-  Settings, 
-  BarChart3, 
+import {
+  Home,
+  Users,
+  Package,
+  Settings,
+  BarChart3,
   FileText,
   ShoppingCart,
   UserCheck
@@ -31,7 +31,7 @@ export function DashboardWithIcons() {
       {/* Contoh 2: User Management dengan icon Users */}
       <Dashboard
         breadcrumbItems={[
-          { label: "Dashboard", href: "/", icon: Home },
+          { label: "Dashboard", href: "/dashboard", icon: Home },
           { label: "User Management", isCurrentPage: true }
         ]}
         title="User Management"

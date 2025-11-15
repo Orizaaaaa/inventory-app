@@ -16,6 +16,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { useCurrentRoute, isActiveRoute } from "@/hooks/use-current-route"
+import { useNavigate } from "@/routes"
 
 export function NavMain({
   items,
@@ -36,6 +37,11 @@ export function NavMain({
   }[]
 }) {
   const currentRoute = useCurrentRoute()
+  const navigate = useNavigate()
+
+  const handleNavigate = (url: string) => {
+    navigate(url as Parameters<typeof navigate>[0])
+  }
 
   return (
     <SidebarGroup>
@@ -50,15 +56,13 @@ export function NavMain({
             return (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton 
-                  asChild
                   tooltip={item.title}
                   isActive={isItemActive}
+                  onClick={() => handleNavigate(item.url)}
                   className={isItemActive ? "bg-sidebar-active text-sidebar-active-foreground hover:bg-sidebar-active hover:text-sidebar-active-foreground" : ""}
                 >
-                  <a href={item.url}>
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                  </a>
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             )
@@ -94,13 +98,11 @@ export function NavMain({
                         return (
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton 
-                              asChild
                               isActive={isSubItemActive}
+                              onClick={() => handleNavigate(subItem.url)}
                               className={isSubItemActive ? "bg-sidebar-active text-sidebar-active-foreground hover:bg-sidebar-active hover:text-sidebar-active-foreground" : ""}
                             >
-                              <a href={subItem.url}>
-                                <span>{subItem.title}</span>
-                              </a>
+                              <span>{subItem.title}</span>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         )
@@ -117,7 +119,6 @@ export function NavMain({
                           <SidebarMenuSubItem>
                             <CollapsibleTrigger asChild>
                               <SidebarMenuSubButton 
-                                tooltip={subItem.title}
                                 isActive={isSubItemActive}
                                 className={isSubItemActive ? "bg-sidebar-active text-sidebar-active-foreground hover:bg-sidebar-active hover:text-sidebar-active-foreground" : ""}
                               >
@@ -132,13 +133,11 @@ export function NavMain({
                                   return (
                                     <SidebarMenuSubItem key={subSubItem.title}>
                                       <SidebarMenuSubButton 
-                                        asChild
                                         isActive={isSubSubItemActive}
+                                        onClick={() => handleNavigate(subSubItem.url)}
                                         className={isSubSubItemActive ? "bg-sidebar-active text-sidebar-active-foreground hover:bg-sidebar-active hover:text-sidebar-active-foreground" : ""}
                                       >
-                                        <a href={subSubItem.url}>
-                                          <span>{subSubItem.title}</span>
-                                        </a>
+                                        <span>{subSubItem.title}</span>
                                       </SidebarMenuSubButton>
                                     </SidebarMenuSubItem>
                                   )
