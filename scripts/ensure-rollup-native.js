@@ -4,7 +4,7 @@ import { join } from 'path';
 import { platform, arch } from 'os';
 
 // Determine the correct platform-specific package
-const platformMap = {
+const rollupPlatformMap = {
   'linux': {
     'x64': '@rollup/rollup-linux-x64-gnu',
     'arm64': '@rollup/rollup-linux-arm64-gnu'
@@ -19,13 +19,32 @@ const platformMap = {
   }
 };
 
+const tailwindPlatformMap = {
+  'linux': {
+    'x64': '@tailwindcss/oxide-linux-x64-gnu',
+    'arm64': '@tailwindcss/oxide-linux-arm64-gnu'
+  },
+  'darwin': {
+    'x64': '@tailwindcss/oxide-darwin-x64',
+    'arm64': '@tailwindcss/oxide-darwin-arm64'
+  },
+  'win32': {
+    'x64': '@tailwindcss/oxide-win32-x64-msvc',
+    'arm64': '@tailwindcss/oxide-win32-arm64-msvc'
+  }
+};
+
 const currentPlatform = platform();
 const currentArch = arch();
-const rollupPackage = platformMap[currentPlatform]?.[currentArch];
+const rollupPackage = rollupPlatformMap[currentPlatform]?.[currentArch];
+const tailwindPackage = tailwindPlatformMap[currentPlatform]?.[currentArch];
 
 const packages = [];
 if (rollupPackage) {
   packages.push(rollupPackage);
+}
+if (tailwindPackage) {
+  packages.push(tailwindPackage);
 }
 
 // Only add lightningcss for Linux (Vercel uses Linux)
