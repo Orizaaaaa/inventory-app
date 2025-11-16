@@ -3,8 +3,8 @@ import dataNotFounds from "@/assets/icons/data-not-found.svg";
 import dataNotFoundsWhite from "@/assets/images/table_empty_data.png";
 import TableSkeleton from "./table-skeleton";
 
-interface LoaderDataProps {
-  data?: any[];
+interface LoaderDataProps<T = unknown> {
+  data?: T[];
   loading: boolean;
   colCount?: number;
   rowCount?: number;
@@ -13,7 +13,7 @@ interface LoaderDataProps {
   variant?: "blue" | "white";
 }
 
-export default function LoaderData({
+export default function LoaderData<T = unknown>({
   data = [],
   loading,
   colCount = 10,
@@ -21,7 +21,7 @@ export default function LoaderData({
   headClassName = "",
   bodyClassName = "",
   variant = "blue",
-}: LoaderDataProps) {
+}: LoaderDataProps<T>) {
   if (loading) {
     return (
       <TableSkeleton

@@ -14,11 +14,11 @@ export default memo(function TableSkeleton({
   bodyClassName?: string; 
 }) {
   const cols = [...Array(colCount)].map((_, i) => <Th key={i}     colSpan={colCount}><div className={twMerge("w-full h-[20px] rounded bg-slate-200 animate-pulse", headClassName)}></div></Th>);
-  const rows = [...Array(rowCount)].map((_, i) => <Tr key={i}><Td colSpan={colCount}><div className={twMerge("w-full h-[44px] rounded bg-slate-200 animate-pulse", bodyClassName)}></div></Td></Tr>);
+  const rows = [...Array(rowCount)].map((_, i) => <Tr key={i} className="border-b border-[#D0D3D9]"><Td colSpan={colCount}><div className={twMerge("w-full h-[44px] rounded bg-slate-200 animate-pulse", bodyClassName)}></div></Td></Tr>);
 
   return (
     <Table>
-      <THead><Tr className="border-b bg-[#F0F1F3]">{cols}</Tr></THead>
+      <THead><Tr className="border-b border-[#D0D3D9] bg-[#F0F1F3]">{cols}</Tr></THead>
       <TBody>{rows}</TBody>
     </Table>
   );
