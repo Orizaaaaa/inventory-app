@@ -7,12 +7,13 @@ import { Edit, EyeIcon } from "lucide-react";
 import PaginationWrapper from "@/components/ui/pagination-wrapper";
 import { useNavigate } from "@/routes";
 import ButtonDeleteProduct from "./action/button-delete-product";
+import LoaderData from "@/components/ui/loader-data";
 interface TableProductProps {
     data: Product[]
-    // loading: boolean;
+    loading: boolean;
 }
 
-const TableProduct: React.FC<TableProductProps> = ({
+const TableProduct: React.FC<TableProductProps> = ({ loading,
     data,
 }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -63,6 +64,7 @@ const TableProduct: React.FC<TableProductProps> = ({
                         ))}
                     </TBody>
                 </Table>
+                <LoaderData data={data ?? []} loading={loading} colCount={10} rowCount={5} />
                 <PaginationWrapper
                     totalRows={data.length}
                     page={currentPage}

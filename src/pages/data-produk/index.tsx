@@ -13,7 +13,7 @@ import { AlertTriangle, DollarSign, Package, Plus, TrendingUp } from "lucide-rea
 export default function DataProduk() {
     const navigate = useNavigate();
     const { data: productResponse, isLoading, isError } = useProduct();
-    
+
     const products = productResponse?.data || [];
     return (
         <Dashboard
@@ -101,13 +101,9 @@ export default function DataProduk() {
 
 
 
-                    {isLoading ? (
-                        <div className="p-4 text-center">Loading...</div>
-                    ) : isError ? (
-                        <div className="p-4 text-center text-red-500">Error loading products</div>
-                    ) : (
-                        <TableProduct data={products} />
-                    )}
+
+                    <TableProduct loading={isLoading} data={products} />
+
                 </div>
             </div>
 
