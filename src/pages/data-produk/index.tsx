@@ -13,6 +13,7 @@ import { AlertTriangle, DollarSign, Package, Plus, TrendingUp } from "lucide-rea
 export default function DataProduk() {
     const navigate = useNavigate();
     const { data: productResponse, isLoading, isError } = useProduct();
+    console.log(isError);
 
     const products = productResponse?.data || [];
     return (
