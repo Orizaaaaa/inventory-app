@@ -22,8 +22,8 @@ import {
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar"
+import { useSidebar } from "@/components/ui/use-sidebar"
 import { useCurrentRoute, isActiveRoute } from "@/hooks/use-current-route"
 
 export function NavProjects({

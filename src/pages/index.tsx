@@ -93,7 +93,7 @@ export default function LoginPage() {
         </div>
 
         {/* Info Card */}
-            {/* <div className="mt-6 bg-blue-50 rounded-xl p-4 border border-blue-100">
+        {/* <div className="mt-6 bg-blue-50 rounded-xl p-4 border border-blue-100">
             <p className="text-sm text-blue-800 text-center">
                 <strong>Demo Account:</strong> Email dan password sudah terisi untuk kemudahan testing
             </p>

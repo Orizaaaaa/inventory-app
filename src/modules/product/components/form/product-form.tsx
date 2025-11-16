@@ -106,9 +106,9 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
     return (
       <form onSubmit={onSubmit ? handleSubmit(onSubmit) : (e) => e.preventDefault()} className="space-y-6">
         {/* Product Information Section */}
-        <div className="bg-gradient-to-br from-blue-500/25 to-purple-50/50 rounded-xl p-6 border border-blue-100/50">
+        <div className="bg-linear-to-br from-blue-500/25 to-purple-50/50 rounded-xl p-6 border border-blue-100/50">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg">
+            <div className="p-2 bg-linear-to-br from-blue-500 to-purple-600 rounded-lg">
               <Package className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -186,9 +186,9 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
         </div>
 
         {/* Pricing Section */}
-        <div className="bg-gradient-to-br from-green-50/50 to-emerald-50/50 rounded-xl p-6 border border-green-100/50">
+        <div className="bg-linear-to-br from-green-50/50 to-emerald-50/50 rounded-xl p-6 border border-green-100/50">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
+            <div className="p-2 bg-linear-to-br from-green-500 to-emerald-600 rounded-lg">
               <DollarSign className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -215,9 +215,9 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
         </div>
 
         {/* Stock Management Section */}
-        <div className="bg-gradient-to-br from-orange-50/50 to-amber-50/50 rounded-xl p-6 border border-orange-100/50">
+        <div className="bg-linear-to-br from-orange-50/50 to-amber-50/50 rounded-xl p-6 border border-orange-100/50">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg">
+            <div className="p-2 bg-linear-to-br from-orange-500 to-amber-600 rounded-lg">
               <BarChart3 className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -274,9 +274,9 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
         </div>
 
         {/* Location Section */}
-        <div className="bg-gradient-to-br from-indigo-50/50 to-violet-50/50 rounded-xl p-6 border border-indigo-100/50">
+        <div className="bg-linear-to-br from-indigo-50/50 to-violet-50/50 rounded-xl p-6 border border-indigo-100/50">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-lg">
+            <div className="p-2 bg-linear-to-br from-indigo-500 to-violet-600 rounded-lg">
               <MapPin className="w-5 h-5 text-white" />
             </div>
             <div>
