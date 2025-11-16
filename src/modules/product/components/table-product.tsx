@@ -3,9 +3,10 @@ import { Table, TBody, Th, THead, Tr, Td } from "@/components/ui/table";
 import { formatRupiah } from "@/utils/format";
 import { Button } from "@/components/ui/button";
 import type { Product } from "../types/main";
-import { Edit, EyeIcon, Trash } from "lucide-react";
+import { Edit, EyeIcon } from "lucide-react";
 import PaginationWrapper from "@/components/ui/pagination-wrapper";
 import { useNavigate } from "@/routes";
+import ButtonDeleteProduct from "./action/button-delete-product";
 interface TableProductProps {
     data: Product[]
     // loading: boolean;
@@ -44,9 +45,9 @@ const TableProduct: React.FC<TableProductProps> = ({
                         {data.map((item) => (
                             <Tr key={item.id || item._id}>
                                 <Td className="flex gap-3">
-                                    <Button icon={<EyeIcon />} variant={"primary"} size={"iconMd"} />
+                                    <Button onClick={() => navigate(`/data-produk/detail/${item._id}` as Parameters<typeof navigate>[0])} icon={<EyeIcon />} variant={"primary"} size={"iconMd"} />
                                     <Button onClick={() => navigate(`/data-produk/edit/${item._id}` as Parameters<typeof navigate>[0])} icon={<Edit />} variant={"warning"} size={"iconMd"} />
-                                    <Button icon={<Trash />} variant={"dangers"} size={"iconMd"} />
+                                    <ButtonDeleteProduct id={item.id ?? item._id} />
                                 </Td>
                                 <Td className="whitespace-normal">{item.product_name}</Td>
                                 <Td className="font-medium">{item.code}</Td>

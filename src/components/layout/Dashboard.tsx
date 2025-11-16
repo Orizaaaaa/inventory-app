@@ -20,6 +20,8 @@ import { useModalConfirmStore } from '@/hooks/use-modal-confirm-store';
 import ModalFailed from '../ui/modals/modal-failed';
 import ModalSuccess from '../ui/modals/modal-success';
 import ModalConfirm from '../ui/modals/modal-confirm';
+import ModalDelete from '../ui/modals/modal-delete';
+import { useModalConfirm } from '@/hooks/use-modal-confirm';
 
 interface DashboardProps {
     children: React.ReactNode;
@@ -33,15 +35,16 @@ interface DashboardProps {
     description?: string;
 }
 
-export function Dashboard({ 
-    children, 
+export function Dashboard({
+    children,
     breadcrumbItems = [],
     title,
-    description 
+    description
 }: DashboardProps) {
+    const modalDelete = useModalConfirm();
     const modalSuccess = useModalStore("modalSuccess");
-  const modalFailed = useModalStore("modalFailed");
-  const modalSubmit = useModalConfirmStore("modalSubmit");
+    const modalFailed = useModalStore("modalFailed");
+    const modalSubmit = useModalConfirmStore("modalSubmit");
     return (
         <SidebarProvider>
             <AppSidebar />
@@ -97,24 +100,29 @@ export function Dashboard({
                 </div>
             </SidebarInset>
             <ModalFailed
-        visible={modalFailed.visible}
-        message={modalFailed.message}
-        setOpen={modalFailed.hideModal}
-      />
-      <ModalSuccess
-        visible={modalSuccess.visible}
-        message={modalSuccess.message}
-        onClose={modalSuccess.hideModal}
-      />
-      <ModalConfirm
-        visible={modalSubmit.visible}
-        loading={modalSubmit.loading}
-        heading={modalSubmit.options.heading}
-        message={modalSubmit.options.message}
-        btnText={modalSubmit.options.btnText}
-        onSubmit={modalSubmit.onConfirm}
-        onCancel={modalSubmit.options.onCancel}
-      />
+                visible={modalFailed.visible}
+                message={modalFailed.message}
+                setOpen={modalFailed.hideModal}
+            />
+            <ModalSuccess
+                visible={modalSuccess.visible}
+                message={modalSuccess.message}
+                onClose={modalSuccess.hideModal}
+            />
+            <ModalConfirm
+                visible={modalSubmit.visible}
+                loading={modalSubmit.loading}
+                heading={modalSubmit.options.heading}
+                message={modalSubmit.options.message}
+                btnText={modalSubmit.options.btnText}
+                onSubmit={modalSubmit.onConfirm}
+                onCancel={modalSubmit.options.onCancel}
+            />
+
+            <ModalDelete visible={modalDelete.visible}
+                loading={modalDelete.loading} heading={modalDelete.options.heading}
+                message={modalDelete.options.message} btnText={modalDelete.options.btnText}
+                onSubmit={modalDelete.onConfirm} onCancel={modalDelete.options.onCancel} />
 
         </SidebarProvider>
     );
