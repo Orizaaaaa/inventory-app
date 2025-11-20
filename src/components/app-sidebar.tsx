@@ -138,6 +138,10 @@ const data = {
           title: "Category",
           url: "/master-data/category",
         },
+        {
+          title: "Nota",
+          url: "/master-data/nota",
+        },
       ],
     },
   ],
