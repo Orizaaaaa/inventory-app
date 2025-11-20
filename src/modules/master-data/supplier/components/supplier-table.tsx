@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Table, TBody, Th, THead, Tr, Td } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Edit, EyeIcon, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import PaginationWrapper from "@/components/ui/pagination-wrapper";
 import LoaderData from "@/components/ui/loader-data";
 import type { SupplierType } from "../types/type";
+import UpdateSupplierModal from "./action/update-supplier-modal";
+import ButtonDeleteSupplier from "./action/button-delete-supplier";
 interface TableSupplierProps {
     data: SupplierType[]
     loading: boolean;
@@ -15,6 +17,13 @@ const TableSupplier: React.FC<TableSupplierProps> = ({ loading,
 }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [selectedSupplier, setSelectedSupplier] = useState<SupplierType | null>(null);
+
+    const handleEditClick = (supplier: SupplierType) => {
+        setSelectedSupplier(supplier);
+        setIsUpdateModalOpen(true);
+    };
 
     return (
         <div className="border-none shadow-none bg-white rounded-2xl w-full min-w-0 max-w-full ">
@@ -24,23 +33,30 @@ const TableSupplier: React.FC<TableSupplierProps> = ({ loading,
                 >
                     <THead className="bg-slate-200 rounded-t-xl">
                         <Tr>
-                            <Th className="font-medium w-52 ">Action</Th>
+                            <Th className="font-medium w-32 ">Action</Th>
                             <Th className="font-medium">Name</Th>
                             <Th className="font-medium ">No Telpon </Th>
                         </Tr>
                     </THead>
                     <TBody className="bg-white">
-                        {data.map((item) => (
-                            <Tr key={item.id}>
-                                <Td className="flex gap-3 w-52">
-                                    <Button icon={<EyeIcon />} variant={"primary"} size={"iconMd"} />
-                                    <Button icon={<Edit />} variant={"warning"} size={"iconMd"} />
-                                    <Button icon={<Trash />} variant={"dangers"} size={"iconMd"} />
-                                </Td>
-                                <Td className="whitespace-normal">{item.name}</Td>
-                                <Td className="font-medium">{item.phone}</Td>
-                            </Tr>
-                        ))}
+                        {data.map((item) => {
+                            const supplierId = item.id || item._id || "";
+                            return (
+                                <Tr key={supplierId}>
+                                    <Td className="flex gap-3 w-32">
+                                        <Button 
+                                            icon={<Edit />} 
+                                            variant={"warning"} 
+                                            size={"iconMd"} 
+                                            onClick={() => handleEditClick(item)}
+                                        />
+                                        <ButtonDeleteSupplier id={supplierId} />
+                                    </Td>
+                                    <Td className="whitespace-normal">{item.name}</Td>
+                                    <Td className="font-medium">{item.phone}</Td>
+                                </Tr>
+                            );
+                        })}
                     </TBody>
                 </Table>
                 <LoaderData data={data ?? []} loading={loading} colCount={10} rowCount={5} />
@@ -54,6 +70,13 @@ const TableSupplier: React.FC<TableSupplierProps> = ({ loading,
                     onRowsPerPageChange={setRowsPerPage}
                 />
             </div>
+            {selectedSupplier && (
+                <UpdateSupplierModal
+                    open={isUpdateModalOpen}
+                    onOpenChange={setIsUpdateModalOpen}
+                    supplier={selectedSupplier}
+                />
+            )}
         </div>
     );
 };

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Table, TBody, Th, THead, Tr, Td } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Edit, EyeIcon, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import PaginationWrapper from "@/components/ui/pagination-wrapper";
 import LoaderData from "@/components/ui/loader-data";
 import type { CategoryType } from "../types/types";
+import UpdateCategoryModal from "./action/update-category-modal";
+import ButtonDeleteCategory from "./action/button-delete-category";
 
 interface TableCategoryProps {
     data: CategoryType[]
@@ -16,6 +18,13 @@ const TableCategory: React.FC<TableCategoryProps> = ({ loading,
 }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(null);
+
+    const handleEditClick = (category: CategoryType) => {
+        setSelectedCategory(category);
+        setIsUpdateModalOpen(true);
+    };
 
     return (
         <div className="border-none shadow-none bg-white rounded-2xl w-full min-w-0 max-w-full ">
@@ -25,21 +34,28 @@ const TableCategory: React.FC<TableCategoryProps> = ({ loading,
                 >
                     <THead className="bg-slate-200 rounded-t-xl">
                         <Tr>
-                            <Th className="font-medium w-52 ">Action</Th>
+                            <Th className="font-medium w-32 ">Action</Th>
                             <Th className="font-medium">Name</Th>
                         </Tr>
                     </THead>
                     <TBody className="bg-white">
-                        {data.map((item) => (
-                            <Tr key={item.id}>
-                                <Td className="flex gap-3 w-52">
-                                    <Button icon={<EyeIcon />} variant={"primary"} size={"iconMd"} />
-                                    <Button icon={<Edit />} variant={"warning"} size={"iconMd"} />
-                                    <Button icon={<Trash />} variant={"dangers"} size={"iconMd"} />
-                                </Td>
-                                <Td className="whitespace-normal">{item.name}</Td>
-                            </Tr>
-                        ))}
+                        {data.map((item) => {
+                            const categoryId = item.id || item._id || "";
+                            return (
+                                <Tr key={categoryId}>
+                                    <Td className="flex gap-3 w-32">
+                                        <Button
+                                            icon={<Edit />}
+                                            variant={"warning"}
+                                            size={"iconMd"}
+                                            onClick={() => handleEditClick(item)}
+                                        />
+                                        <ButtonDeleteCategory id={categoryId} />
+                                    </Td>
+                                    <Td className="whitespace-normal">{item.name}</Td>
+                                </Tr>
+                            );
+                        })}
                     </TBody>
                 </Table>
                 <LoaderData data={data ?? []} loading={loading} colCount={10} rowCount={5} />
@@ -53,6 +69,13 @@ const TableCategory: React.FC<TableCategoryProps> = ({ loading,
                     onRowsPerPageChange={setRowsPerPage}
                 />
             </div>
+            {selectedCategory && (
+                <UpdateCategoryModal
+                    open={isUpdateModalOpen}
+                    onOpenChange={setIsUpdateModalOpen}
+                    category={selectedCategory}
+                />
+            )}
         </div>
     );
 };
