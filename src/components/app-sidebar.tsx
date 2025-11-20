@@ -142,6 +142,10 @@ const data = {
           title: "Nota",
           url: "/master-data/nota",
         },
+        {
+          title: "Lokasi Warehouse",
+          url: "/master-data/location",
+        },
       ],
     },
   ],
