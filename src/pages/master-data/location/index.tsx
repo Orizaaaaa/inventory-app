@@ -1,9 +1,8 @@
 import { Dashboard } from "@/components/layout";
 import TableLocation from "@/modules/master-data/location/components/location-table";
 import { useLocation } from "@/modules/master-data/location/api/get-all-location";
-import { Button } from "@/components/ui/button";
 import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
-import { Plus, MapPin, Building2 } from "lucide-react";
+import { MapPin, Building2 } from "lucide-react";
 import { useState } from "react";
 import CreateLocationModal from "@/modules/master-data/location/components/action/create-location-modal";
 
@@ -32,7 +31,7 @@ export default function Location() {
                                 <p className="text-blue-100 mt-1">Manage your storage locations</p>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
 
@@ -57,9 +56,9 @@ export default function Location() {
                     <TableLocation data={locations} loading={isLoading} />
                 </div>
             </div>
-            <CreateLocationModal 
-                open={isCreateModalOpen} 
-                onOpenChange={setIsCreateModalOpen} 
+            <CreateLocationModal
+                open={isCreateModalOpen}
+                onOpenChange={setIsCreateModalOpen}
             />
         </Dashboard>
     );
