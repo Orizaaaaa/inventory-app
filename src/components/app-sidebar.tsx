@@ -12,6 +12,7 @@ import {
   Warehouse,
   ShoppingCart,
   TrendingUp,
+  Layers,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -121,6 +122,21 @@ const data = {
         {
           title: "Data Forecasting",
           url: "/data-penjualan/forecasting",
+        },
+      ],
+    },
+    {
+      title: "Master Data",
+      url: "/master-data",
+      icon: Layers,
+      items: [
+        {
+          title: "Supplier",
+          url: "/master-data/supplier",
+        },
+        {
+          title: "Category",
+          url: "/master-data/category",
         },
       ],
     },
