@@ -2,9 +2,10 @@ import { Dashboard } from "@/components/layout";
 import TableSupplier from "@/modules/master-data/supplier/components/supplier-table";
 import { useSupplier } from "@/modules/master-data/supplier/api/get-all-supplier";
 import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
-import { Users, Truck } from "lucide-react";
+import { Users, Truck, Plus } from "lucide-react";
 import { useState } from "react";
 import CreateSupplierModal from "@/modules/master-data/supplier/components/action/crete-supplier";
+import { Button } from "@/components/ui/button";
 
 export default function Supplier() {
     const { data: supplierResponse, isLoading } = useSupplier();
@@ -47,17 +48,20 @@ export default function Supplier() {
                 {/* Table Section */}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="px-6 py-4 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                            <Users className="w-5 h-5 text-purple-600" />
-                            Supplier List
-                        </h2>
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                                <Users className="w-5 h-5 text-purple-600" />
+                                Supplier List
+                            </h2>
+                            <Button text="Add Supplier" icon={<Plus />} variant={"gradien"} onClick={() => setIsCreateModalOpen(true)} />
+                        </div>
                     </div>
                     <TableSupplier data={suppliers} loading={isLoading} />
                 </div>
             </div>
-            <CreateSupplierModal 
-                open={isCreateModalOpen} 
-                onOpenChange={setIsCreateModalOpen} 
+            <CreateSupplierModal
+                open={isCreateModalOpen}
+                onOpenChange={setIsCreateModalOpen}
             />
         </Dashboard>
     );

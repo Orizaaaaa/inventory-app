@@ -2,9 +2,10 @@ import { Dashboard } from "@/components/layout";
 import TableLocation from "@/modules/master-data/location/components/location-table";
 import { useLocation } from "@/modules/master-data/location/api/get-all-location";
 import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
-import { MapPin, Building2 } from "lucide-react";
+import { MapPin, Building2, Plus } from "lucide-react";
 import { useState } from "react";
 import CreateLocationModal from "@/modules/master-data/location/components/action/create-location-modal";
+import { Button } from "@/components/ui/button";
 
 export default function Location() {
     const { data: locationResponse, isLoading } = useLocation();
@@ -44,14 +45,16 @@ export default function Location() {
                         iconColor="text-indigo-600"
                     />
                 </StatCardGrid>
-
-                {/* Table Section */}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="px-6 py-4 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                            <MapPin className="w-5 h-5 text-indigo-600" />
-                            Location List
-                        </h2>
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                                <MapPin className="w-5 h-5 text-indigo-600" />
+                                Location List
+                            </h2>
+                            <Button text="Add Location" icon={<Plus />} variant={"gradien"} onClick={() => setIsCreateModalOpen(true)} />
+                        </div>
+
                     </div>
                     <TableLocation data={locations} loading={isLoading} />
                 </div>

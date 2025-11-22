@@ -40,9 +40,9 @@ export default function CreateSupplierModal({
 
     const watchedValues = watch();
     const isFormComplete = Boolean(
-        watchedValues.name && 
+        watchedValues.name &&
         watchedValues.name.trim().length >= 3 &&
-        watchedValues.phone && 
+        watchedValues.phone &&
         watchedValues.phone.trim().length >= 10
     );
 
@@ -95,6 +95,7 @@ export default function CreateSupplierModal({
                 <Label htmlFor="phone">Phone Number</Label>
                 <Input
                     {...register("phone", { required: true })}
+                    type="number"
                     value={watchedValues.phone}
                     placeholder="Input phone number"
                     className={`w-full ${errors.phone ? "border-red-500 focus:border-red-500" : ""}`}

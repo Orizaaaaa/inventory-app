@@ -2,9 +2,10 @@ import { Dashboard } from "@/components/layout";
 import TableCategory from "@/modules/master-data/category/components/category-table";
 import { useCategory } from "@/modules/master-data/category/api/get-all-category";
 import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
-import { Tag, Package } from "lucide-react";
+import { Tag, Package, Plus } from "lucide-react";
 import { useState } from "react";
 import CreateCategoryModal from "@/modules/master-data/category/components/action/create-category-modal";
+import { Button } from "@/components/ui/button";
 
 export default function Category() {
     const { data: categoryResponse, isLoading } = useCategory();
@@ -47,17 +48,21 @@ export default function Category() {
                 {/* Table Section */}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="px-6 py-4 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                            <Tag className="w-5 h-5 text-green-600" />
-                            Category List
-                        </h2>
+
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                                <Tag className="w-5 h-5 text-green-600" />
+                                Category List
+                            </h2>
+                            <Button text="Add Category" icon={<Plus />} variant={"gradien"} onClick={() => setIsCreateModalOpen(true)} />
+                        </div>
                     </div>
                     <TableCategory data={categories} loading={isLoading} />
                 </div>
             </div>
-            <CreateCategoryModal 
-                open={isCreateModalOpen} 
-                onOpenChange={setIsCreateModalOpen} 
+            <CreateCategoryModal
+                open={isCreateModalOpen}
+                onOpenChange={setIsCreateModalOpen}
             />
         </Dashboard>
     );

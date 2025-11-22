@@ -2,9 +2,10 @@ import { Dashboard } from "@/components/layout";
 import TableNota from "@/modules/master-data/nota/components/nota-table";
 import { useNota } from "@/modules/master-data/nota/api/get-all-nota";
 import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
-import { Receipt, FileText } from "lucide-react";
+import { Receipt, FileText, Plus } from "lucide-react";
 import { useState } from "react";
 import CreateNotaModal from "@/modules/master-data/nota/components/action/create-nota-modal";
+import { Button } from "@/components/ui/button";
 
 export default function Nota() {
     const { data: notaResponse, isLoading } = useNota();
@@ -47,17 +48,22 @@ export default function Nota() {
                 {/* Table Section */}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="px-6 py-4 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                            <Receipt className="w-5 h-5 text-orange-600" />
-                            Nota List
-                        </h2>
+
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                                <Receipt className="w-5 h-5 text-orange-600" />
+                                Nota List
+                            </h2>
+                            <Button text="Add Tipe Nota" icon={<Plus />} variant={"gradien"} onClick={() => setIsCreateModalOpen(true)} />
+                        </div>
+
                     </div>
                     <TableNota data={notas} loading={isLoading} />
                 </div>
             </div>
-            <CreateNotaModal 
-                open={isCreateModalOpen} 
-                onOpenChange={setIsCreateModalOpen} 
+            <CreateNotaModal
+                open={isCreateModalOpen}
+                onOpenChange={setIsCreateModalOpen}
             />
         </Dashboard>
     );
