@@ -454,13 +454,13 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
 }
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-[linear-gradient(90deg,rgba(24,116,165,0.6),rgba(163,26,242,0.6))] hover:text-white hover:[&>svg]:text-white hover:[&>span]:text-white focus-visible:ring-2 active:bg-[linear-gradient(90deg,#1874A5,#A31AF2)] active:text-white active:[&>svg]:text-white active:[&>span]:text-white disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        default: "hover:bg-[linear-gradient(90deg,rgba(24,116,165,0.6),rgba(163,26,242,0.6))] hover:text-white hover:[&>svg]:text-white hover:[&>span]:text-white cursor-pointer",
         outline:
-          "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
+          "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-[linear-gradient(90deg,rgba(24,116,165,0.6),rgba(163,26,242,0.6))] hover:text-white hover:[&>svg]:text-white hover:[&>span]:text-white hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))] cursor-pointer",
       },
       size: {
         default: "h-8 text-sm",
@@ -675,8 +675,9 @@ function SidebarMenuSubButton({
       data-size={size}
       data-active={isActive}
       className={cn(
-        "text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground [&>svg]:text-sidebar-accent-foreground flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 outline-hidden focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
-        "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
+        "text-sidebar-foreground ring-sidebar-ring hover:bg-[linear-gradient(90deg,rgba(24,116,165,0.6),rgba(163,26,242,0.6))] hover:text-white hover:[&>svg]:text-white hover:[&>span]:text-white active:bg-[linear-gradient(90deg,#1874A5,#A31AF2)] active:text-white active:[&>svg]:text-white active:[&>span]:text-white [&>svg]:text-sidebar-accent-foreground flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 outline-hidden focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+        "data-[active=true]:bg-[linear-gradient(90deg,#1874A5,#A31AF2)] data-[active=true]:text-white data-[active=true]:[&>svg]:text-white data-[active=true]:[&>span]:text-white",
+        "group-has-[data-active=true]/menu-item:bg-[linear-gradient(90deg,#1874A5,#A31AF2)] group-has-[data-active=true]/menu-item:text-white group-has-[data-active=true]/menu-item:[&>svg]:text-white group-has-[data-active=true]/menu-item:[&>span]:text-white",
         size === "sm" && "text-xs",
         size === "md" && "text-sm",
         "group-data-[collapsible=icon]:hidden",
