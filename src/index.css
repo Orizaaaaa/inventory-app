@@ -142,23 +142,32 @@
 }
 
 /* Custom hover and active states for sidebar */
-[data-sidebar] [data-sidebar="menu-button"]:hover {
-  background-color: hsl(217 91% 95%) !important;
-  color: hsl(217 91% 20%) !important;
+[data-sidebar] [data-sidebar="menu-button"]:not([data-active="true"]):hover {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 221, 50, 0.2),
+    rgba(255, 179, 0, 0.2)
+  ) !important;
+  color: inherit !important;
 }
 
 [data-sidebar] [data-sidebar="menu-button"][data-active="true"] {
-  background-color: hsl(217 91% 60%) !important;
+  background: linear-gradient(90deg, #ffb300, #ffdd32) !important;
   color: hsl(0 0% 100%) !important;
 }
 
-[data-sidebar] [data-sidebar="menu-sub-button"]:hover {
-  background-color: hsl(217 91% 95%) !important;
-  color: hsl(217 91% 20%) !important;
+[data-sidebar]
+  [data-sidebar="menu-sub-button"]:not([data-active="true"]):hover {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 221, 50, 0.2),
+    rgba(255, 179, 0, 0.2)
+  ) !important;
+  color: inherit !important;
 }
 
 [data-sidebar] [data-sidebar="menu-sub-button"][data-active="true"] {
-  background-color: hsl(217 91% 60%) !important;
+  background: linear-gradient(90deg, #ffb300, #ffdd32) !important;
   color: hsl(0 0% 100%) !important;
 }
 

@@ -52,6 +52,12 @@ const buttonVariants = cva(
         ].join(" "),
         blue: "bg-blue-500 hover:bg-blue-600 text-neutral-1 rounded-lg",
         lightBlue: "bg-primary-50 text-primary-500",
+        yellow: [
+          "text-white",
+          "bg-[linear-gradient(90deg,#ffb300,#ffdd32)]",
+          "hover:bg-[linear-gradient(0deg,#ffffff33_0%,#ffffff33_100%),linear-gradient(283deg,#ffdd32_6%,#ffb300_97%)]",
+          "active:bg-[linear-gradient(0deg,#00000033_0%,#00000033_100%),linear-gradient(283deg,#ffdd32_6%,#ffb300_97%)]",
+        ].join(" "),
       },
       size: {
         xs: "h-[32px] text-[12px]",
