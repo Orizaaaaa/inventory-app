@@ -5,10 +5,12 @@ import { InputNumber } from "@/components/ui/forms/input-number";
 import { InputCurrency } from "@/components/ui/forms/input-currency";
 import { Select } from "@/components/ui/forms/select-field";
 import { productCreateSchema, type ProductFormData, type Product } from "../../types/main";
-import { useEffect, useImperativeHandle, forwardRef } from "react";
+import { useEffect, useImperativeHandle, forwardRef, useMemo } from "react";
 import CreateProductButton from "../action/create-product-button";
 import UpdateProductButton from "../action/update-product-button";
 import { Package, DollarSign, MapPin, BarChart3 } from "lucide-react";
+import { useCategory } from "@/modules/master-data/category/api/get-all-category";
+import { useLocation } from "@/modules/master-data/location/api/get-all-location";
 
 type ProductFormProps = {
   mode?: "create" | "edit";
@@ -28,16 +30,33 @@ const unitOptions = [
   { label: "pack", value: "pack" },
 ];
 
-const categoryOptions = [
-  { label: "Minuman", value: "Minuman" },
-  { label: "Makanan", value: "Makanan" },
-  { label: "Snack", value: "Snack" },
-  { label: "Bahan Baku", value: "Bahan Baku" },
-  { label: "Lainnya", value: "Lainnya" },
-];
 
 const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>(
   ({ mode = "create", initialData, onSubmit, productId, onUpdateSuccess }, ref) => {
+    // Fetch category data from API
+    const { data: categoryResponse, isLoading: isLoadingCategory } = useCategory();
+    const categories = categoryResponse?.data || [];
+    
+    // Fetch location data from API
+    const { data: locationResponse, isLoading: isLoadingLocation } = useLocation();
+    const locations = locationResponse?.data || [];
+
+    // Transform category data to options format
+    const categoryOptions = useMemo(() => {
+      return categories.map((category) => ({
+        label: category.name,
+        value: category.name,
+      }));
+    }, [categories]);
+
+    // Transform location data to options format
+    const locationOptions = useMemo(() => {
+      return locations.map((location) => ({
+        label: location.name,
+        value: location.name,
+      }));
+    }, [locations]);
+
     const getDefaultValues = (): Partial<ProductFormData> => {
       if (mode === "edit" && initialData) {
         return {
@@ -162,6 +181,7 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
                   onChange={field.onChange}
                   errorMsg={errors.category?.message}
                   placeholder="Pilih Category"
+                  disabled={isLoadingCategory}
                 />
               )}
             />
@@ -286,11 +306,21 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Location */}
-            <Input
-              label="Location"
-              required
-              error={errors.location?.message}
-              {...register("location")}
+            <Controller
+              name="location"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label="Location"
+                  required
+                  datalist={locationOptions}
+                  defValue={field.value || undefined}
+                  onChange={field.onChange}
+                  errorMsg={errors.location?.message}
+                  placeholder="Pilih Location"
+                  disabled={isLoadingLocation}
+                />
+              )}
             />
           </div>
         </div>

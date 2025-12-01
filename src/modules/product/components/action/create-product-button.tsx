@@ -41,8 +41,9 @@ export default function CreateProductButton({ form, onSuccess }: CreateProductBu
               navigate("/data-produk" as Parameters<typeof navigate>[0]);
             }
           );
-        } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : "Failed to create product";
+        } catch (error: any) {
+          console.log("Create product error:", error);
+          const errorMessage = error.response.data.message || "Failed to create product";
           modalFailed.openModal(errorMessage);
         }
       },
@@ -58,7 +59,7 @@ export default function CreateProductButton({ form, onSuccess }: CreateProductBu
         onClick={handleCreate}
         disabled={!isValid}
       />
-      
+
     </div>
   );
 }

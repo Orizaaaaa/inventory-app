@@ -39,8 +39,8 @@ export default function UpdateProductButton({ form, id, onSuccess }: UpdateProdu
               onSuccess?.();
             }
           );
-        } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : "Failed to update product";
+        } catch (error: any) {
+          const errorMessage = error.response.data.message || "Failed to create product";
           modalFailed.openModal(errorMessage);
         }
       },
@@ -49,12 +49,12 @@ export default function UpdateProductButton({ form, id, onSuccess }: UpdateProdu
 
   return (
     <div>
-      <Button 
-        variant={"gradien"} 
-        text="Update" 
-        className="w-[150px]" 
-        onClick={handleUpdate} 
-        disabled={!isValid} 
+      <Button
+        variant={"gradien"}
+        text="Update"
+        className="w-[150px]"
+        onClick={handleUpdate}
+        disabled={!isValid}
       />
     </div>
   );

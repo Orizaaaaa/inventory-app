@@ -52,7 +52,7 @@ export default function Location() {
                                 <MapPin className="w-5 h-5 text-indigo-600" />
                                 Location List
                             </h2>
-                            <Button text="Add Location" icon={<Plus />} variant={"gradien"} onClick={() => setIsCreateModalOpen(true)} />
+                            <Button text="Add Location" icon={<Plus />} variant={"yellow"} onClick={() => setIsCreateModalOpen(true)} />
                         </div>
 
                     </div>

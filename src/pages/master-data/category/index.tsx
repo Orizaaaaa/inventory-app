@@ -54,7 +54,7 @@ export default function Category() {
                                 <Tag className="w-5 h-5 text-green-600" />
                                 Category List
                             </h2>
-                            <Button text="Add Category" icon={<Plus />} variant={"gradien"} onClick={() => setIsCreateModalOpen(true)} />
+                            <Button text="Add Category" icon={<Plus />} variant={"yellow"} onClick={() => setIsCreateModalOpen(true)} />
                         </div>
                     </div>
                     <TableCategory data={categories} loading={isLoading} />

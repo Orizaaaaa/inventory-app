@@ -54,7 +54,7 @@ export default function Nota() {
                                 <Receipt className="w-5 h-5 text-orange-600" />
                                 Nota List
                             </h2>
-                            <Button text="Add Tipe Nota" icon={<Plus />} variant={"gradien"} onClick={() => setIsCreateModalOpen(true)} />
+                            <Button text="Add Tipe Nota" icon={<Plus />} variant={"yellow"} onClick={() => setIsCreateModalOpen(true)} />
                         </div>
 
                     </div>

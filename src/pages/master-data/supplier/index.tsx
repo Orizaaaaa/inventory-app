@@ -53,7 +53,7 @@ export default function Supplier() {
                                 <Users className="w-5 h-5 text-purple-600" />
                                 Supplier List
                             </h2>
-                            <Button text="Add Supplier" icon={<Plus />} variant={"gradien"} onClick={() => setIsCreateModalOpen(true)} />
+                            <Button text="Add Supplier" icon={<Plus />} variant={"yellow"} onClick={() => setIsCreateModalOpen(true)} />
                         </div>
                     </div>
                     <TableSupplier data={suppliers} loading={isLoading} />

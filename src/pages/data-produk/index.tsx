@@ -71,7 +71,7 @@ export default function DataProduk() {
                 </StatCardGrid>
                 <div className="bg-white rounded-t-2xl">
                     <div className="flex justify-end pt-4 px-4">
-                        <Button onClick={() => navigate("/data-produk/create" as Parameters<typeof navigate>[0])} icon={<Plus />} variant={"gradien"} text={" Add Product"} />
+                        <Button onClick={() => navigate("/data-produk/create" as Parameters<typeof navigate>[0])} icon={<Plus />} variant={"yellow"} text={" Add Product"} />
                     </div>
                     <div className="flex justify-between px-4 py-4">
                         <SearchInput placeholder="Search Product" />
@@ -99,12 +99,7 @@ export default function DataProduk() {
                             />
                         </div>
                     </div>
-
-
-
-
                     <TableProduct loading={isLoading} data={products} />
-
                 </div>
             </div>
 
