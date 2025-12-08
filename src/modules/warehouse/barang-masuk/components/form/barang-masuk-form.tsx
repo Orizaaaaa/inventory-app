@@ -7,18 +7,15 @@ import { Select } from "@/components/ui/forms/select-field";
 
 import Textarea from "@/components/ui/forms/textarea";
 import { barangMasukCreateSchema, type BarangMasukFormData, type BarangMasukCreate } from "../../types/main";
-import { useEffect, useImperativeHandle, forwardRef, useMemo } from "react";
+import { useEffect, forwardRef, useMemo } from "react";
 import { Package, MapPin } from "lucide-react";
 import { useNota } from "@/modules/master-data/nota/api/get-all-nota";
 import { useSupplier } from "@/modules/master-data/supplier/api/get-all-supplier";
 import { useLocation } from "@/modules/master-data/location/api/get-all-location";
 import { useProduct } from "@/modules/product/api/get-all-product";
 import { useAuthStore } from "@/stores/auth-store";
-import { useCreateBarangMasuk } from "../../api/create-barang-masuk";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "@/routes";
-import { useModalStore } from "@/hooks/use-modal-store";
-import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
+import { DatePickerComponent } from "@/components/ui/forms/date-picker";
+import CreateProductMasukButton from "../action/button-create-barang-masuk";
 
 type BarangMasukFormProps = {
   onSubmit?: (data: BarangMasukCreate) => void;
@@ -35,21 +32,14 @@ const unitOptions = [
 ];
 
 const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMasukFormProps>(
-  ({ onSubmit }, ref) => {
-    const navigate = useNavigate();
+  () => {
     const user = useAuthStore((state) => state.user);
-    const modalSuccess = useModalStore("modalSuccess");
-    const modalFailed = useModalStore("modalFailed");
-    const modalSubmit = useModalConfirmStore("modalSubmit");
 
     // Fetch data from APIs
     const { data: notaResponse, isLoading: isLoadingNota } = useNota();
     const { data: supplierResponse, isLoading: isLoadingSupplier } = useSupplier();
     const { data: locationResponse, isLoading: isLoadingLocation } = useLocation();
     const { data: productResponse, isLoading: isLoadingProduct } = useProduct();
-
-    const { mutateAsync: createBarangMasuk } = useCreateBarangMasuk({});
-
     // Transform data to options format
     const notaOptions = useMemo(() => {
       const notasData = notaResponse?.data || [];
@@ -92,13 +82,11 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
 
     const {
       register,
-      handleSubmit,
       control,
       formState: { errors },
       setValue,
     } = form;
 
-    useImperativeHandle(ref, () => form, [form]);
 
     // Set entered_by from auth store
     useEffect(() => {
@@ -106,60 +94,8 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
         setValue("entered_by", user.userId);
       }
     }, [user, setValue]);
-
-    const onSubmitForm = handleSubmit(async (data, e) => {
-      e?.preventDefault();
-
-      // Format date to YYYY-MM-DD
-      const formattedData: BarangMasukCreate = {
-        date: data.date instanceof Date 
-          ? data.date.toISOString().split('T')[0]
-          : "",
-        note_type: data.note_type,
-        supplier: data.supplier,
-        note_number: data.note_number,
-        additional_notes: data.additional_notes,
-        product: data.product,
-        qty_in: data.qty_in,
-        unit: data.unit,
-        entered_by: data.entered_by,
-        storage_location: data.storage_location,
-        hpp: data.hpp,
-      };
-
-      if (onSubmit) {
-        onSubmit(formattedData);
-      } else {
-        modalSubmit.handleConfirm({
-          heading: "Confirm!!",
-          message: "Are you sure about the data entered?",
-          btnText: "Yes, Submit",
-          onCancel: modalSubmit.hideModal,
-          onSubmit: async () => {
-            try {
-              await createBarangMasuk({ data: formattedData });
-              modalSubmit.hideModal();
-              form.reset();
-              modalSuccess.openModal(
-                "Your data has been successfully submitted.",
-                () => {
-                  navigate("/warehouse/barang-masuk" as Parameters<typeof navigate>[0]);
-                }
-              );
-            } catch (error: unknown) {
-              console.log("Create barang masuk error:", error);
-              const errorMessage = 
-                (error as { response?: { data?: { message?: string } } })?.response?.data?.message 
-                || "Failed to create barang masuk";
-              modalFailed.openModal(errorMessage);
-            }
-          },
-        });
-      }
-    });
-
     return (
-      <form onSubmit={onSubmitForm} className="space-y-6">
+      <form className="space-y-6">
         {/* Basic Information Section */}
         <div className="bg-linear-to-br from-blue-500/25 to-purple-50/50 rounded-xl p-6 border border-blue-100/50">
           <div className="flex items-center gap-3 mb-6">
@@ -173,8 +109,20 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Date */}
-       
-           
+            <Controller
+              name="date"
+              control={control}
+              render={({ field }) => (
+                <DatePickerComponent
+                  label="Date"
+                  required
+                  value={field.value}
+                  onChange={(date) => field.onChange(date)}
+                  error={errors.date?.message}
+                  dateFormat="dd/MM/yyyy"
+                />
+              )}
+            />
 
             {/* Note Type */}
             <Controller
@@ -344,35 +292,26 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
 
           {/* Additional Notes */}
           <div className="mt-6">
-          <Controller
-                        name="additional_notes"
-                        control={control}
-                        render={({ field, fieldState }) => (
-                            <Textarea
-                                {...field}
-                                isShowCharCount
-                                maxLength={500}
-                                label="Additional Notes"
-                                placeholder="Input some text"
-                                error={fieldState.error?.message}
-                            />
-                        )}
-                    />
+            <Controller
+              name="additional_notes"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Textarea
+                  {...field}
+                  isShowCharCount
+                  maxLength={500}
+                  label="Additional Notes"
+                  placeholder="Input some text"
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
           </div>
         </div>
 
         {/* Submit Button */}
         <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => navigate("/warehouse/barang-masuk" as Parameters<typeof navigate>[0])}
-          >
-            Cancel
-          </Button>
-          <Button type="submit" variant="yellow">
-            Create Barang Masuk
-          </Button>
+          <CreateProductMasukButton form={form} />
         </div>
       </form>
     );

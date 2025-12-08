@@ -1,8 +1,6 @@
 import { Dashboard } from "@/components/layout";
 import BackButton from "@/components/ui/back-button";
-import { DatePickerExample } from "@/components/ui/forms/date-picker.example";
 import BarangMasukForm from "@/modules/warehouse/barang-masuk/components/form/barang-masuk-form";
-import { DatePicker } from "@heroui/date-picker";
 
 export default function CreateBarangMasuk() {
     return (
@@ -16,9 +14,6 @@ export default function CreateBarangMasuk() {
                     </div>
 
                     <BarangMasukForm />
-                    {/* <DatePickerExample /> */}
-                    <DatePicker showMonthAndYearPickers className="max-w-[284px]" label="Birth date" />;
-                    <DatePickerExample />
                 </div>
             </div>
         </Dashboard>
