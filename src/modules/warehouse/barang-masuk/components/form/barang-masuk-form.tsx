@@ -6,9 +6,9 @@ import { InputCurrency } from "@/components/ui/forms/input-currency";
 import { Select } from "@/components/ui/forms/select-field";
 
 import Textarea from "@/components/ui/forms/textarea";
-import { barangMasukCreateSchema, type BarangMasukFormData, type BarangMasukCreate } from "../../types/main";
-import { useEffect, forwardRef, useMemo } from "react";
-import { Package, MapPin } from "lucide-react";
+import { barangMasukCreateSchema, type BarangMasukFormData, type BarangMasuk } from "../../types/main";
+import { useEffect, useImperativeHandle, forwardRef, useMemo } from "react";
+import { Package, MapPin, Info } from "lucide-react";
 import { useNota } from "@/modules/master-data/nota/api/get-all-nota";
 import { useSupplier } from "@/modules/master-data/supplier/api/get-all-supplier";
 import { useLocation } from "@/modules/master-data/location/api/get-all-location";
@@ -16,9 +16,14 @@ import { useProduct } from "@/modules/product/api/get-all-product";
 import { useAuthStore } from "@/stores/auth-store";
 import { DatePickerComponent } from "@/components/ui/forms/date-picker";
 import CreateProductMasukButton from "../action/button-create-barang-masuk";
+import UpdateBarangMasukButton from "../action/button-update-barang-masuk";
 
 type BarangMasukFormProps = {
-  onSubmit?: (data: BarangMasukCreate) => void;
+  mode?: "create" | "edit";
+  initialData?: BarangMasuk;
+  onSubmit?: (data: BarangMasukFormData) => void;
+  barangMasukId?: string;
+  onUpdateSuccess?: () => void;
 };
 
 const unitOptions = [
@@ -32,7 +37,7 @@ const unitOptions = [
 ];
 
 const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMasukFormProps>(
-  () => {
+  ({ mode = "create", initialData, onSubmit, barangMasukId, onUpdateSuccess }, ref) => {
     const user = useAuthStore((state) => state.user);
 
     // Fetch data from APIs
@@ -40,6 +45,7 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
     const { data: supplierResponse, isLoading: isLoadingSupplier } = useSupplier();
     const { data: locationResponse, isLoading: isLoadingLocation } = useLocation();
     const { data: productResponse, isLoading: isLoadingProduct } = useProduct();
+
     // Transform data to options format
     const notaOptions = useMemo(() => {
       const notasData = notaResponse?.data || [];
@@ -73,20 +79,42 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
       }));
     }, [productResponse?.data]);
 
+    const getDefaultValues = (): Partial<BarangMasukFormData> => {
+      if (mode === "edit" && initialData) {
+        return {
+          date: initialData.date ? new Date(initialData.date) : undefined,
+          note_type: initialData.note_type?._id || "",
+          supplier: initialData.supplier?._id || "",
+          note_number: initialData.note_number || "",
+          additional_notes: initialData.additional_notes || "",
+          product: initialData.product?._id || initialData.product?.id || "",
+          qty_in: initialData.qty_in || 0,
+          unit: initialData.unit || "",
+          entered_by: initialData.entered_by?._id || user?.userId || "",
+          storage_location: initialData.storage_location?._id || "",
+          hpp: initialData.hpp || 0,
+        };
+      }
+      return {
+        entered_by: user?.userId || "",
+      };
+    };
+
     const form = useForm<BarangMasukFormData>({
       resolver: zodResolver(barangMasukCreateSchema),
-      defaultValues: {
-        entered_by: user?.userId || "",
-      },
+      defaultValues: getDefaultValues(),
     });
 
     const {
       register,
+      handleSubmit,
       control,
       formState: { errors },
       setValue,
+      reset,
     } = form;
 
+    useImperativeHandle(ref, () => form, [form]);
 
     // Set entered_by from auth store
     useEffect(() => {
@@ -94,13 +122,33 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
         setValue("entered_by", user.userId);
       }
     }, [user, setValue]);
+
+    // Reset form when initialData changes in edit mode
+    useEffect(() => {
+      if (initialData && mode === "edit") {
+        reset({
+          date: initialData.date ? new Date(initialData.date) : undefined,
+          note_type: initialData.note_type?._id || "",
+          supplier: initialData.supplier?._id || "",
+          note_number: initialData.note_number || "",
+          additional_notes: initialData.additional_notes || "",
+          product: initialData.product?._id || initialData.product?.id || "",
+          qty_in: initialData.qty_in || 0,
+          unit: initialData.unit || "",
+          entered_by: initialData.entered_by?._id || user?.userId || "",
+          storage_location: initialData.storage_location?._id || "",
+          hpp: initialData.hpp || 0,
+        });
+      }
+    }, [initialData, mode, reset, user]);
     return (
-      <form className="space-y-6">
+      <form onSubmit={onSubmit ? handleSubmit(onSubmit) : (e) => e.preventDefault()} className="space-y-6">
         {/* Basic Information Section */}
         <div className="bg-linear-to-br from-blue-500/25 to-purple-50/50 rounded-xl p-6 border border-blue-100/50">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-linear-to-br from-blue-500 to-purple-600 rounded-lg">
 
+            <div className="p-2 bg-linear-to-br from-blue-500 to-purple-600 rounded-lg">
+              <Info className="w-5 h-5 text-white" />
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900">Informasi Dasar</h3>
@@ -311,12 +359,18 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
 
         {/* Submit Button */}
         <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
-          <CreateProductMasukButton form={form} />
+          {mode === "edit" && barangMasukId ? (
+            <UpdateBarangMasukButton form={form} id={barangMasukId} onSuccess={onUpdateSuccess} />
+          ) : (
+            <CreateProductMasukButton form={form} />
+          )}
         </div>
       </form>
     );
   }
 );
+
+BarangMasukForm.displayName = "BarangMasukForm";
 
 export default BarangMasukForm;
 

@@ -54,8 +54,8 @@ const TableBarangMasuk: React.FC<TableBarangMasukProps> = ({
                         {data.map((item) => (
                             <Tr key={item.id || item._id}>
                                 <Td className="flex gap-3">
-                                    <Button icon={<EyeIcon />} variant={"primary"} size={"iconMd"} />
-                                    <Button icon={<Edit />} variant={"warning"} size={"iconMd"} />
+                                    <Button onClick={() => navigate(`/warehouse/barang-masuk/update/${item.id ?? item._id}`)} icon={<EyeIcon />} variant={"primary"} size={"iconMd"} />
+                                    <Button onClick={() => navigate(`/warehouse/barang-masuk/update/${item.id ?? item._id}`)} icon={<Edit />} variant={"warning"} size={"iconMd"} />
                                     <ButtonDeleteBarangMasuk id={item.id ?? item._id} />
                                 </Td>
                                 <Td>{formatDate(item.date, "short")}</Td>

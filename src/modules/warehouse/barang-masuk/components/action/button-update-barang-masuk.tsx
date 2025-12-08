@@ -2,46 +2,48 @@ import { Button } from "@/components/ui/button";
 
 import { useModalStore } from "@/hooks/use-modal-store";
 import type { UseFormReturn } from "react-hook-form";
-import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
-import { useNavigate } from "@/routes";
 import type { BarangMasukFormData } from "../../types/main";
-import { useCreateBarangMasuk } from "../../api/create-barang-masuk";
+import { useUpdateBarangMasuk } from "../../api/update-product";
+import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
 
-type CreateProductButtonProps = {
+type UpdateBarangMasukButtonProps = {
     form: UseFormReturn<BarangMasukFormData>;
+    id: string;
     onSuccess?: () => void;
 };
 
-export default function CreateProductMasukButton({ form }: CreateProductButtonProps) {
-    const navigate = useNavigate();
+export default function UpdateBarangMasukButton({ form, id, onSuccess }: UpdateBarangMasukButtonProps) {
     const modalSuccess = useModalStore("modalSuccess");
     const modalFailed = useModalStore("modalFailed");
     const modalSubmit = useModalConfirmStore("modalSubmit");
 
     const { handleSubmit, formState: { isValid } } = form;
-    const { mutateAsync: createBarangMasuk } = useCreateBarangMasuk({});
+    const { mutateAsync: updateBarangMasuk } = useUpdateBarangMasuk({});
 
-    const handleCreate = handleSubmit(async (values, e) => {
+    const handleUpdate = handleSubmit(async (values, e) => {
         e?.preventDefault();
 
+        // Format date to YYYY-MM-DD
+
         modalSubmit.handleConfirm({
-            heading: "Confirm!!",
-            message: "Are you sure about the data entered?",
-            btnText: "Yes, Submit",
+            heading: "Confirm Update!!",
+            message: "Are you sure about the changes made?",
+            btnText: "Yes, Update",
             onCancel: modalSubmit.hideModal,
             onSubmit: async () => {
                 try {
-                    await createBarangMasuk({ data: values });
+                    await updateBarangMasuk({ id, data: values });
                     modalSubmit.hideModal();
+                    form.reset();
                     modalSuccess.openModal(
-                        "Your data has been successfully submitted.",
+                        "Your data has been successfully updated.",
                         () => {
-                            navigate("/warehouse/barang-masuk" as Parameters<typeof navigate>[0]);
+                            onSuccess?.();
                         }
                     );
                 } catch (error: any) {
-                    console.log("Create product error:", error);
-                    const errorMessage = error.response.data.message || "Failed to create product";
+                    console.log("Update barang masuk error:", error);
+                    const errorMessage = error.response?.data?.message || "Failed to update barang masuk";
                     modalFailed.openModal(errorMessage);
                 }
             },
@@ -52,12 +54,11 @@ export default function CreateProductMasukButton({ form }: CreateProductButtonPr
         <div>
             <Button
                 variant={"yellow"}
-                text="Submit"
+                text="Update"
                 className="w-[150px]"
-                onClick={handleCreate}
+                onClick={handleUpdate}
                 disabled={!isValid}
             />
-
         </div>
     );
 }
