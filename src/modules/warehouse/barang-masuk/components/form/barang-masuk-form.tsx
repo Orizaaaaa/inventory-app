@@ -17,6 +17,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { DatePickerComponent } from "@/components/ui/forms/date-picker";
 import CreateProductMasukButton from "../action/button-create-barang-masuk";
 import UpdateBarangMasukButton from "../action/button-update-barang-masuk";
+import { parseDateString } from "@/utils/format-date";
 
 type BarangMasukFormProps = {
   mode?: "create" | "edit";
@@ -82,7 +83,7 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
     const getDefaultValues = (): Partial<BarangMasukFormData> => {
       if (mode === "edit" && initialData) {
         return {
-          date: initialData.date ? new Date(initialData.date) : undefined,
+          date: initialData.date ? parseDateString(initialData.date) : undefined,
           note_type: initialData.note_type?._id || "",
           supplier: initialData.supplier?._id || "",
           note_number: initialData.note_number || "",
@@ -127,7 +128,7 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
     useEffect(() => {
       if (initialData && mode === "edit") {
         reset({
-          date: initialData.date ? new Date(initialData.date) : undefined,
+          date: initialData.date ? parseDateString(initialData.date) : undefined,
           note_type: initialData.note_type?._id || "",
           supplier: initialData.supplier?._id || "",
           note_number: initialData.note_number || "",

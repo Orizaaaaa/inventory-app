@@ -1,11 +1,32 @@
 export type DateFormatType = "long" | "short" | "numeric";
 
+/**
+ * Parse date string to Date object without timezone conversion
+ * Extracts only the date part (YYYY-MM-DD) to avoid timezone issues
+ */
+export function parseDateString(dateString: string): Date {
+  if (!dateString) return new Date();
+  
+  // Extract YYYY-MM-DD part if string contains time
+  let datePart: string;
+  if (dateString.includes('T')) {
+    datePart = dateString.split('T')[0];
+  } else {
+    datePart = dateString;
+  }
+  
+  // Parse YYYY-MM-DD and create Date object using UTC
+  const [year, month, day] = datePart.split('-').map(Number);
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
 export function formatDate(input: string | Date, format: DateFormatType = "long") {
   if (!input) return "-";
   
   let d: Date;
   if (typeof input === "string") {
-    d = input.includes('T') ? new Date(input) : new Date(input + 'T00:00:00.000Z');
+    // Use parseDateString to avoid timezone conversion
+    d = parseDateString(input);
   } else {
     d = input;
   }
