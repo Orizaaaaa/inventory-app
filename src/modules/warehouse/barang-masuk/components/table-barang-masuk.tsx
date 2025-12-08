@@ -5,6 +5,10 @@ import { formatDate } from "@/utils/format-date";
 import type { BarangMasuk } from "../types/main";
 import PaginationWrapper from "@/components/ui/pagination-wrapper";
 import LoaderData from "@/components/ui/loader-data";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router";
+import { Edit, EyeIcon } from "lucide-react";
+import ButtonDeleteBarangMasuk from "./action/button-delete-product";
 
 interface TableBarangMasukProps {
     data: BarangMasuk[];
@@ -26,12 +30,14 @@ const TableBarangMasuk: React.FC<TableBarangMasukProps> = ({
     onPageChange,
     onRowsPerPageChange,
 }) => {
+    const navigate = useNavigate();
     return (
         <div className="border-none shadow-none bg-white rounded-2xl w-full min-w-0 max-w-full">
             <div className="p-3">
                 <Table className="[&_tr]:border-b [&_tr]:border-gray-200">
                     <THead className="bg-slate-200 rounded-t-xl">
                         <Tr>
+                            <Th className="font-medium">Action</Th>
                             <Th className="font-medium">Date</Th>
                             <Th className="font-medium">Note Number</Th>
                             <Th className="font-medium">Note Type</Th>
@@ -47,6 +53,11 @@ const TableBarangMasuk: React.FC<TableBarangMasukProps> = ({
                     <TBody className="bg-white">
                         {data.map((item) => (
                             <Tr key={item.id || item._id}>
+                                <Td className="flex gap-3">
+                                    <Button icon={<EyeIcon />} variant={"primary"} size={"iconMd"} />
+                                    <Button icon={<Edit />} variant={"warning"} size={"iconMd"} />
+                                    <ButtonDeleteBarangMasuk id={item.id ?? item._id} />
+                                </Td>
                                 <Td>{formatDate(item.date, "short")}</Td>
                                 <Td className="font-medium">{item.note_number}</Td>
                                 <Td>{item.note_type?.name || "-"}</Td>
