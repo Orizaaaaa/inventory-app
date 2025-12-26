@@ -100,6 +100,8 @@ export interface BarangKeluarCreate {
   total_hpp: number;
 }
 
+export type BarangKeluarApiPayload = Omit<BarangKeluarFormData, 'date'> & { date: string };
+
 import { z } from "zod";
 
 export const barangKeluarCreateSchema = z.object({

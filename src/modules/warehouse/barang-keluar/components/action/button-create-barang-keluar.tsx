@@ -4,7 +4,7 @@ import { useModalStore } from "@/hooks/use-modal-store";
 import type { UseFormReturn } from "react-hook-form";
 import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
 import { useNavigate } from "@/routes";
-import type { BarangKeluarFormData } from "../../types/main";
+import type { BarangKeluarFormData, BarangKeluarApiPayload } from "../../types/main";
 import { useCreateBarangKeluar } from "../../api/create-barang-keluar";
 
 type CreateBarangKeluarButtonProps = {
@@ -32,7 +32,7 @@ export default function CreateBarangKeluarButton({ form }: CreateBarangKeluarBut
             onSubmit: async () => {
                 try {
                     // Format date to ISO string
-                    const formattedData = {
+                    const formattedData: BarangKeluarApiPayload = {
                         ...values,
                         date: values.date ? values.date.toISOString().split('T')[0] : '',
                     };
@@ -44,9 +44,9 @@ export default function CreateBarangKeluarButton({ form }: CreateBarangKeluarBut
                             navigate("/warehouse/barang-keluar" as Parameters<typeof navigate>[0]);
                         }
                     );
-                } catch (error: any) {
+                } catch (error: unknown) {
                     console.log("Create barang keluar error:", error);
-                    const errorMessage = error.response?.data?.message || "Failed to create barang keluar";
+                    const errorMessage = (error as { response?: { data?: { message?: string } } })?.response?.data?.message || "Failed to create barang keluar";
                     modalFailed.openModal(errorMessage);
                 }
             },

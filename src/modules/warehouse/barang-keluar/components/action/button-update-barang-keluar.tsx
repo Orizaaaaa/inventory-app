@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 import { useModalStore } from "@/hooks/use-modal-store";
 import type { UseFormReturn } from "react-hook-form";
-import type { BarangKeluarFormData } from "../../types/main";
+import type { BarangKeluarFormData, BarangKeluarApiPayload } from "../../types/main";
 import { useUpdateBarangKeluar } from "../../api/update-barang-keluar";
 import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
 
@@ -31,7 +31,7 @@ export default function UpdateBarangKeluarButton({ form, id, onSuccess }: Update
             onSubmit: async () => {
                 try {
                     // Format date to ISO string
-                    const formattedData = {
+                    const formattedData: BarangKeluarApiPayload = {
                         ...values,
                         date: values.date ? values.date.toISOString().split('T')[0] : '',
                     };
@@ -44,9 +44,9 @@ export default function UpdateBarangKeluarButton({ form, id, onSuccess }: Update
                             onSuccess?.();
                         }
                     );
-                } catch (error: any) {
+                } catch (error: unknown) {
                     console.log("Update barang keluar error:", error);
-                    const errorMessage = error.response?.data?.message || "Failed to update barang keluar";
+                    const errorMessage = (error as { response?: { data?: { message?: string } } })?.response?.data?.message || "Failed to update barang keluar";
                     modalFailed.openModal(errorMessage);
                 }
             },

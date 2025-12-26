@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { MutationConfig } from "@/libs/react-query";
 import { api } from "@/libs/api";
-import type { BarangKeluarFormData } from "../types/main";
+import type { BarangKeluarApiPayload } from "../types/main";
 
-const CreateBarangKeluar = ({ data }: { data: BarangKeluarFormData }) => {
+const CreateBarangKeluar = ({ data }: { data: BarangKeluarApiPayload }) => {
     return api.post("/barang-keluar", data);
 };
 

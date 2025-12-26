@@ -8,7 +8,7 @@ import { Select } from "@/components/ui/forms/select-field";
 import Textarea from "@/components/ui/forms/textarea";
 import { barangKeluarCreateSchema, type BarangKeluarFormData, type BarangKeluar } from "../../types/main";
 import { useEffect, useImperativeHandle, forwardRef, useMemo } from "react";
-import { Package, MapPin, Info, UserCircle } from "lucide-react";
+import { Package, MapPin, Info } from "lucide-react";
 import { useNota } from "@/modules/master-data/nota/api/get-all-nota";
 import { useCustomer } from "@/modules/master-data/customer/api/get-all-customer";
 import { useProduct } from "@/modules/product/api/get-all-product";
