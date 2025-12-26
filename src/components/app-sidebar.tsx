@@ -131,6 +131,10 @@ const data = {
       icon: Layers,
       items: [
         {
+          title: "Customer",
+          url: "/master-data/customer",
+        },
+        {
           title: "Supplier",
           url: "/master-data/supplier",
         },
