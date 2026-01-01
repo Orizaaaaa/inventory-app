@@ -13,6 +13,8 @@ import {
   ShoppingCart,
   TrendingUp,
   Layers,
+  UserCog,
+  Handshake,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -29,19 +31,19 @@ import {
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "LAF",
+    email: "laf@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
     {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
+      name: "LAF Admin",
+      logo: UserCog,
       plan: "Enterprise",
     },
     {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
+      name: "LAF Busdev",
+      logo: Handshake,
       plan: "Startup",
     },
     {
