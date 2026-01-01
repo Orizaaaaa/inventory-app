@@ -2,10 +2,8 @@
 
 import * as React from "react"
 import {
-  AudioWaveform,
   Bot,
   Command,
-  GalleryVerticalEnd,
   LayoutDashboard,
   Building2,
   Package,
