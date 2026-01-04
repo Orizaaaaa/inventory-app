@@ -100,55 +100,60 @@ export default function CreateBahanBakuModal({
                     <p className="text-sm text-red-500">{errors.name.message}</p>
                 )}
             </div>
-            <div className="space-y-2">
-                <Label htmlFor="code">Code</Label>
-                <Input
-                    {...register("code", { required: true })}
-                    value={watchedValues.code}
-                    placeholder="Input code"
-                    className={`w-full ${errors.code ? "border-red-500 focus:border-red-500" : ""}`}
-                />
-                {errors.code && (
-                    <p className="text-sm text-red-500">{errors.code.message}</p>
-                )}
+            <div className="flex gap-4">
+                <div className="space-y-2">
+                    <Label htmlFor="code">Code</Label>
+                    <Input
+                        {...register("code", { required: true })}
+                        value={watchedValues.code}
+                        placeholder="Input code"
+                        className={`w-full ${errors.code ? "border-red-500 focus:border-red-500" : ""}`}
+                    />
+                    {errors.code && (
+                        <p className="text-sm text-red-500">{errors.code.message}</p>
+                    )}
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="unit">Unit</Label>
+                    <Input
+                        {...register("unit", { required: true })}
+                        value={watchedValues.unit}
+                        placeholder="Input unit (kg, pcs, liter, etc)"
+                        className={`w-full ${errors.unit ? "border-red-500 focus:border-red-500" : ""}`}
+                    />
+                    {errors.unit && (
+                        <p className="text-sm text-red-500">{errors.unit.message}</p>
+                    )}
+                </div>
             </div>
-            <div className="space-y-2">
-                <Label htmlFor="unit">Unit</Label>
-                <Input
-                    {...register("unit", { required: true })}
-                    value={watchedValues.unit}
-                    placeholder="Input unit (kg, pcs, liter, etc)"
-                    className={`w-full ${errors.unit ? "border-red-500 focus:border-red-500" : ""}`}
-                />
-                {errors.unit && (
-                    <p className="text-sm text-red-500">{errors.unit.message}</p>
-                )}
+            <div className="flex gap-4">
+                <div className="space-y-2">
+                    <Label htmlFor="stock">Stock</Label>
+                    <Input
+                        {...register("stock", { required: true, valueAsNumber: true })}
+                        type="number"
+                        value={watchedValues.stock}
+                        placeholder="Input stock"
+                        className={`w-full ${errors.stock ? "border-red-500 focus:border-red-500" : ""}`}
+                    />
+                    {errors.stock && (
+                        <p className="text-sm text-red-500">{errors.stock.message}</p>
+                    )}
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="location">Location</Label>
+                    <Input
+                        {...register("location", { required: true })}
+                        value={watchedValues.location}
+                        placeholder="Input location"
+                        className={`w-full ${errors.location ? "border-red-500 focus:border-red-500" : ""}`}
+                    />
+                    {errors.location && (
+                        <p className="text-sm text-red-500">{errors.location.message}</p>
+                    )}
+                </div>
             </div>
-            <div className="space-y-2">
-                <Label htmlFor="stock">Stock</Label>
-                <Input
-                    {...register("stock", { required: true, valueAsNumber: true })}
-                    type="number"
-                    value={watchedValues.stock}
-                    placeholder="Input stock"
-                    className={`w-full ${errors.stock ? "border-red-500 focus:border-red-500" : ""}`}
-                />
-                {errors.stock && (
-                    <p className="text-sm text-red-500">{errors.stock.message}</p>
-                )}
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="location">Location</Label>
-                <Input
-                    {...register("location", { required: true })}
-                    value={watchedValues.location}
-                    placeholder="Input location"
-                    className={`w-full ${errors.location ? "border-red-500 focus:border-red-500" : ""}`}
-                />
-                {errors.location && (
-                    <p className="text-sm text-red-500">{errors.location.message}</p>
-                )}
-            </div>
+
             <div className="space-y-2">
                 <Label htmlFor="supplier">Supplier (Optional)</Label>
                 <Input
