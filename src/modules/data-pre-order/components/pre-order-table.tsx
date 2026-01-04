@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Table, TBody, Th, THead, Tr, Td } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Edit, EyeIcon } from "lucide-react";
 import PaginationWrapper from "@/components/ui/pagination-wrapper";
 import LoaderData from "@/components/ui/loader-data";
 import type { PreOrderType } from "../types/type";
-import UpdatePreOrderModal from "./action/update-pre-order-modal";
 import ButtonDeletePreOrder from "./action/button-delete-pre-order";
+import { useNavigate } from "@/routes";
 interface TablePreOrderProps {
     data: PreOrderType[]
     loading: boolean;
@@ -15,14 +15,13 @@ interface TablePreOrderProps {
 const TablePreOrder: React.FC<TablePreOrderProps> = ({ loading,
     data,
 }) => {
+    const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-    const [selectedPreOrder, setSelectedPreOrder] = useState<PreOrderType | null>(null);
 
     const handleEditClick = (preOrder: PreOrderType) => {
-        setSelectedPreOrder(preOrder);
-        setIsUpdateModalOpen(true);
+        const preOrderId = preOrder.id || preOrder._id || "";
+        navigate(`/data-pre-order/rincian/edit/${preOrderId}` as Parameters<typeof navigate>[0]);
     };
 
     const formatDate = (dateString?: string) => {
@@ -82,7 +81,13 @@ const TablePreOrder: React.FC<TablePreOrderProps> = ({ loading,
                             const preOrderId = item.id || item._id || "";
                             return (
                                 <Tr key={preOrderId}>
-                                    <Td className="flex gap-3 w-32">
+                                    <Td className="flex gap-3">
+                                        <Button 
+                                            icon={<EyeIcon />} 
+                                            variant={"primary"} 
+                                            size={"iconMd"} 
+                                            onClick={() => navigate(`/data-pre-order/rincian/detail/${preOrderId}` as Parameters<typeof navigate>[0])}
+                                        />
                                         <Button 
                                             icon={<Edit />} 
                                             variant={"warning"} 
@@ -120,13 +125,6 @@ const TablePreOrder: React.FC<TablePreOrderProps> = ({ loading,
                     onRowsPerPageChange={setRowsPerPage}
                 />
             </div>
-            {selectedPreOrder && (
-                <UpdatePreOrderModal
-                    open={isUpdateModalOpen}
-                    onOpenChange={setIsUpdateModalOpen}
-                    preOrder={selectedPreOrder}
-                />
-            )}
         </div>
     );
 };

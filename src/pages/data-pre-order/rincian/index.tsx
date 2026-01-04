@@ -2,10 +2,9 @@ import { Dashboard } from "@/components/layout";
 import TablePreOrder from "@/modules/data-pre-order/components/pre-order-table";
 import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
 import { ShoppingCart, Plus } from "lucide-react";
-import { useState } from "react";
-import CreatePreOrderModal from "@/modules/data-pre-order/components/action/create-pre-order";
 import { Button } from "@/components/ui/button";
 import type { PreOrderType } from "@/modules/data-pre-order/types/type";
+import { useNavigate } from "@/routes";
 
 // Dummy data
 const dummyPreOrders: PreOrderType[] = [
@@ -84,7 +83,7 @@ const dummyPreOrders: PreOrderType[] = [
 ];
 
 export default function RincianPreOrder() {
-    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const navigate = useNavigate();
     const preOrders = dummyPreOrders;
     const isLoading = false;
     const totalPreOrders = preOrders.length;
@@ -96,7 +95,7 @@ export default function RincianPreOrder() {
             ]}>
             <div className="space-y-6 mt-6">
                 {/* Header Section */}
-                <div className="bg-linear-to-r from-purple-500 to-pink-600 rounded-2xl p-6 shadow-lg">
+                <div className="bg-[linear-gradient(90deg,#ffb300,#ffdd32)] rounded-2xl p-6 shadow-lg">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
@@ -104,7 +103,7 @@ export default function RincianPreOrder() {
                             </div>
                             <div>
                                 <h1 className="text-2xl font-bold text-white">Pre-Order Management</h1>
-                                <p className="text-purple-100 mt-1">Manage your pre-orders</p>
+                                <p className="text-yellow-50 mt-1">Manage your pre-orders</p>
                             </div>
                         </div>
                     </div>
@@ -116,7 +115,7 @@ export default function RincianPreOrder() {
                         title="Total Pre-Orders"
                         value={totalPreOrders}
                         icon={ShoppingCart}
-                        iconColor="text-purple-600"
+                        iconColor="text-yellow-600"
                     />
                 </StatCardGrid>
 
@@ -125,19 +124,15 @@ export default function RincianPreOrder() {
                     <div className="px-6 py-4 bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
                         <div className="flex items-center justify-between">
                             <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                                <ShoppingCart className="w-5 h-5 text-purple-600" />
+                                <ShoppingCart className="w-5 h-5 text-yellow-600" />
                                 Pre-Order List
                             </h2>
-                            <Button text="Add Pre-Order" icon={<Plus />} variant={"yellow"} onClick={() => setIsCreateModalOpen(true)} />
+                            <Button text="Add Pre-Order" icon={<Plus />} variant={"yellow"} onClick={() => navigate("/data-pre-order/rincian/create" as Parameters<typeof navigate>[0])} />
                         </div>
                     </div>
                     <TablePreOrder data={preOrders} loading={isLoading} />
                 </div>
             </div>
-            <CreatePreOrderModal
-                open={isCreateModalOpen}
-                onOpenChange={setIsCreateModalOpen}
-            />
         </Dashboard>
     );
 }
