@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogCreate } from "@/components/ui/modals/dialog-create";
 import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/forms/label";
 import { Input } from "@/components/ui/forms/input";
 import { PreOrderSchema, type PreOrderFormData } from "../../schema";
 import SelectDropdown from "@/components/ui/select/select-dropdown";
+import { DatePickerComponent } from "@/components/ui/forms/date-picker";
 
 
 interface CreatePreOrderModalProps {
@@ -30,6 +31,7 @@ export default function CreatePreOrderModal({
 }: CreatePreOrderModalProps) {
     const {
         register,
+        control,
         watch,
         setValue,
         reset,
@@ -41,8 +43,8 @@ export default function CreatePreOrderModal({
             customerName: "",
             customerEmail: "",
             customerPhone: "",
-            orderDate: new Date().toISOString().split('T')[0],
-            deliveryDate: "",
+            orderDate: new Date(),
+            deliveryDate: undefined,
             status: "pending",
             totalAmount: 0,
             notes: "",
@@ -149,30 +151,33 @@ export default function CreatePreOrderModal({
                     <p className="text-sm text-red-500">{errors.customerPhone.message}</p>
                 )}
             </div>
-            <div className="space-y-2">
-                <Label htmlFor="orderDate">Order Date</Label>
-                <Input
-                    {...register("orderDate", { required: true })}
-                    type="date"
-                    value={watchedValues.orderDate}
-                    className={`w-full ${errors.orderDate ? "border-red-500 focus:border-red-500" : ""}`}
-                />
-                {errors.orderDate && (
-                    <p className="text-sm text-red-500">{errors.orderDate.message}</p>
+            <Controller
+                name="orderDate"
+                control={control}
+                render={({ field }) => (
+                    <DatePickerComponent
+                        label="Order Date"
+                        required
+                        value={field.value}
+                        onChange={(date) => field.onChange(date)}
+                        error={errors.orderDate?.message}
+                        dateFormat="dd/MM/yyyy"
+                    />
                 )}
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="deliveryDate">Delivery Date (Optional)</Label>
-                <Input
-                    {...register("deliveryDate")}
-                    type="date"
-                    value={watchedValues.deliveryDate || ""}
-                    className={`w-full ${errors.deliveryDate ? "border-red-500 focus:border-red-500" : ""}`}
-                />
-                {errors.deliveryDate && (
-                    <p className="text-sm text-red-500">{errors.deliveryDate.message}</p>
+            />
+            <Controller
+                name="deliveryDate"
+                control={control}
+                render={({ field }) => (
+                    <DatePickerComponent
+                        label="Delivery Date (Optional)"
+                        value={field.value}
+                        onChange={(date) => field.onChange(date)}
+                        error={errors.deliveryDate?.message}
+                        dateFormat="dd/MM/yyyy"
+                    />
                 )}
-            </div>
+            />
             <div className="space-y-2">
                 <Label htmlFor="status">Status</Label>
                 <SelectDropdown

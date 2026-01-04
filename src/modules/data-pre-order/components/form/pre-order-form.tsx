@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/forms/input";
 import { InputCurrency } from "@/components/ui/forms/input-currency";
 import { PreOrderSchema, type PreOrderFormData } from "../../schema";
-import { useEffect, useImperativeHandle, forwardRef, useMemo } from "react";
+import { useEffect, useImperativeHandle, forwardRef } from "react";
 import CreatePreOrderButton from "../action/create-pre-order-button";
 import UpdatePreOrderButton from "../action/update-pre-order-button";
 import type { PreOrderType } from "../../types/type";

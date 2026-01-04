@@ -5,7 +5,7 @@ export const PreOrderSchema = z.object({
     customerName: z.string().min(1, "Customer name wajib diisi").min(3, "Customer name minimal 3 karakter"),
     customerEmail: z.union([z.string().email("Format email tidak valid"), z.literal(""), z.undefined()]).optional(),
     customerPhone: z.string().optional(),
-    orderDate: z.date({ required_error: "Order date wajib diisi" }),
+    orderDate: z.date().min(new Date(0), "Order date wajib diisi"),
     deliveryDate: z.date().optional(),
     status: z.string().min(1, "Status wajib diisi"),
     totalAmount: z.number().min(0, "Total amount tidak boleh negatif"),

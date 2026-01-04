@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogCreate } from "@/components/ui/modals/dialog-create";
 import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/forms/input";
 import { PreOrderSchema, type PreOrderFormData } from "../../schema";
 import type { PreOrderType } from "../../types/type";
 import SelectDropdown from "@/components/ui/select/select-dropdown";
+import { DatePickerComponent } from "@/components/ui/forms/date-picker";
+import { parseDateString } from "@/utils/format-date";
 
 interface UpdatePreOrderModalProps {
     open: boolean;
@@ -32,14 +34,9 @@ export default function UpdatePreOrderModal({
 }: UpdatePreOrderModalProps) {
     const preOrderId = preOrder.id || preOrder._id || "";
 
-    const formatDateForInput = (dateString?: string) => {
-        if (!dateString) return "";
-        const date = new Date(dateString);
-        return date.toISOString().split('T')[0];
-    };
-
     const {
         register,
+        control,
         watch,
         setValue,
         reset,
@@ -51,8 +48,8 @@ export default function UpdatePreOrderModal({
             customerName: preOrder?.customerName || "",
             customerEmail: preOrder?.customerEmail || "",
             customerPhone: preOrder?.customerPhone || "",
-            orderDate: formatDateForInput(preOrder?.orderDate) || new Date().toISOString().split('T')[0],
-            deliveryDate: formatDateForInput(preOrder?.deliveryDate) || "",
+            orderDate: preOrder?.orderDate ? parseDateString(preOrder.orderDate) : new Date(),
+            deliveryDate: preOrder?.deliveryDate ? parseDateString(preOrder.deliveryDate) : undefined,
             status: preOrder?.status || "pending",
             totalAmount: preOrder?.totalAmount || 0,
             notes: preOrder?.notes || "",
@@ -83,8 +80,8 @@ export default function UpdatePreOrderModal({
                 customerName: preOrder.customerName || "",
                 customerEmail: preOrder.customerEmail || "",
                 customerPhone: preOrder.customerPhone || "",
-                orderDate: formatDateForInput(preOrder.orderDate) || new Date().toISOString().split('T')[0],
-                deliveryDate: formatDateForInput(preOrder.deliveryDate) || "",
+                orderDate: preOrder.orderDate ? parseDateString(preOrder.orderDate) : new Date(),
+                deliveryDate: preOrder.deliveryDate ? parseDateString(preOrder.deliveryDate) : undefined,
                 status: preOrder.status || "pending",
                 totalAmount: preOrder.totalAmount || 0,
                 notes: preOrder.notes || "",
@@ -174,30 +171,33 @@ export default function UpdatePreOrderModal({
                     <p className="text-sm text-red-500">{errors.customerPhone.message}</p>
                 )}
             </div>
-            <div className="space-y-2">
-                <Label htmlFor="orderDate">Order Date</Label>
-                <Input
-                    {...register("orderDate", { required: true })}
-                    type="date"
-                    value={watchedValues.orderDate}
-                    className={`w-full ${errors.orderDate ? "border-red-500 focus:border-red-500" : ""}`}
-                />
-                {errors.orderDate && (
-                    <p className="text-sm text-red-500">{errors.orderDate.message}</p>
+            <Controller
+                name="orderDate"
+                control={control}
+                render={({ field }) => (
+                    <DatePickerComponent
+                        label="Order Date"
+                        required
+                        value={field.value}
+                        onChange={(date) => field.onChange(date)}
+                        error={errors.orderDate?.message}
+                        dateFormat="dd/MM/yyyy"
+                    />
                 )}
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="deliveryDate">Delivery Date (Optional)</Label>
-                <Input
-                    {...register("deliveryDate")}
-                    type="date"
-                    value={watchedValues.deliveryDate || ""}
-                    className={`w-full ${errors.deliveryDate ? "border-red-500 focus:border-red-500" : ""}`}
-                />
-                {errors.deliveryDate && (
-                    <p className="text-sm text-red-500">{errors.deliveryDate.message}</p>
+            />
+            <Controller
+                name="deliveryDate"
+                control={control}
+                render={({ field }) => (
+                    <DatePickerComponent
+                        label="Delivery Date (Optional)"
+                        value={field.value}
+                        onChange={(date) => field.onChange(date)}
+                        error={errors.deliveryDate?.message}
+                        dateFormat="dd/MM/yyyy"
+                    />
                 )}
-            </div>
+            />
             <div className="space-y-2">
                 <Label htmlFor="status">Status</Label>
                 <SelectDropdown
