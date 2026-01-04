@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Chart, registerables } from "chart.js";
 import type { ChartConfiguration } from "chart.js";
-import { ChevronDown } from "lucide-react";
+import { DateRangePickerComponent, type DateRange } from "@/components/ui/forms/date-range-picker";
 
 Chart.register(...registerables);
 
@@ -39,6 +39,10 @@ const totalProfit = profitData.reduce((sum, item) => sum + item.value, 0);
 export default function ProfitByCategory() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartRef = useRef<Chart<"doughnut", number[], string> | null>(null);
+  const [dateRange, setDateRange] = useState<DateRange>({
+    startDate: new Date(new Date().getFullYear(), 0, 1), // Start of current year
+    endDate: new Date(), // Current date
+  });
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -107,9 +111,16 @@ export default function ProfitByCategory() {
             ${totalProfit.toLocaleString()}
           </p>
         </div>
-        <div className="flex items-center space-x-1 text-sm text-gray-600 cursor-pointer hover:text-gray-900">
-          <span>This Year</span>
-          <ChevronDown className="h-4 w-4" />
+        <div className="w-[220px]">
+          <DateRangePickerComponent
+            startDate={dateRange.startDate}
+            endDate={dateRange.endDate}
+            onChange={(range) => setDateRange(range)}
+            placeholder="Pilih periode"
+            containerClassName="mb-0 gap-1"
+            fieldClassName="h-9"
+            dateFormat="dd/MM/yyyy"
+          />
         </div>
       </div>
 
