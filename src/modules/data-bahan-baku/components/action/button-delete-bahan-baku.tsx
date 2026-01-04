@@ -40,3 +40,5 @@ export default function ButtonDeleteBahanBaku({ id }: { id: string }) {
     );
 }
 
+
+

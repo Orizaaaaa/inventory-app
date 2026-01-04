@@ -28,3 +28,5 @@ export interface BahanBakuCreate {
     supplier?: string;
 }
 
+
+

@@ -91,3 +91,5 @@ const TableBahanBaku: React.FC<TableBahanBakuProps> = ({ loading,
 
 export default TableBahanBaku;
 
+
+
