@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import {
-  Bot,
+  // Bot,
   Command,
   LayoutDashboard,
   Building2,
@@ -67,11 +67,11 @@ const data = {
       url: "/data-vendor",
       icon: Building2,
     },
-    {
-      title: "Data Bahan Baku",
-      url: "/data-bahan-baku",
-      icon: Bot,
-    },
+    // {
+    //   title: "Data Bahan Baku",
+    //   url: "/data-bahan-baku",
+    //   icon: Bot,
+    // },
     {
       title: "Warehouse",
       url: "/warehouse",
