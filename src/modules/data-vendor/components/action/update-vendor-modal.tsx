@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/forms/label";
 import { Input } from "@/components/ui/forms/input";
 import { VendorSchema, type VendorFormData } from "../../schema";
 import type { VendorType } from "../../types/type";
+import { useUpdateVendor } from "../../api/update-vendor";
 
 interface UpdateVendorModalProps {
     open: boolean;
@@ -21,7 +22,7 @@ export default function UpdateVendorModal({
     vendor,
 }: UpdateVendorModalProps) {
     const vendorId = vendor.id || vendor._id || "";
-
+    const { mutate: updateProduct } = useUpdateVendor({});
     const {
         register,
         watch,
@@ -43,16 +44,7 @@ export default function UpdateVendorModal({
     const modalFailed = useModalStore("modalFailed");
 
     const watchedValues = watch();
-    const isFormComplete = Boolean(
-        watchedValues.name && 
-        watchedValues.name.trim().length >= 3 &&
-        watchedValues.email &&
-        watchedValues.email.includes("@") &&
-        watchedValues.phone && 
-        watchedValues.phone.trim().length >= 10 &&
-        watchedValues.address &&
-        watchedValues.address.trim().length >= 5
-    );
+
 
     useEffect(() => {
         if (open && vendor?.name) {
@@ -81,7 +73,7 @@ export default function UpdateVendorModal({
             onCancel: modalConfirm.hideModal,
             onSubmit: async () => {
                 try {
-                    // TODO: Replace with actual API call
+                    await updateProduct({ id: vendorId, data: formValues });
                     console.log("Update vendor:", { id: vendorId, data: formValues });
                     modalConfirm.hideModal();
                     modalSuccess.openModal("Your data has been successfully updated.");
@@ -154,7 +146,7 @@ export default function UpdateVendorModal({
         <DialogCreate
             title="Update Vendor"
             inputForm={inputForm}
-            isFormComplete={isFormComplete}
+            isFormComplete={true}
             handleSubmit={handleFormSubmit}
             buttonTitle="Update"
             open={open}

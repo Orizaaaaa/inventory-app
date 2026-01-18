@@ -3,12 +3,14 @@ import { useModalConfirm } from "@/hooks/use-modal-confirm";
 import { useModalStore } from "@/hooks/use-modal-store";
 import { Trash } from "lucide-react";
 import ModalDelete from "@/components/ui/modals/modal-delete";
+import { useDeleteVendor } from "../../api/delete-vendor";
 
 export default function ButtonDeleteVendor({ id }: { id: string }) {
     const modalDelete = useModalConfirm();
     const modalSuccess = useModalStore("modalSuccess");
     const modalFailed = useModalStore("modalFailed");
 
+    const deleteMutation = useDeleteVendor({});
     const handleDelete = () => {
         modalDelete.handleConfirm({
             heading: "Delete?",
@@ -16,8 +18,8 @@ export default function ButtonDeleteVendor({ id }: { id: string }) {
             onCancel: modalDelete.hideModal,
             onSubmit: async () => {
                 try {
+                    await deleteMutation.mutateAsync({ id });
                     modalDelete.hideModal();
-                    // TODO: Replace with actual API call
                     console.log("Delete vendor:", id);
                     modalSuccess.openModal("Your data has been successfully deleted.");
                 } catch (error: unknown) {

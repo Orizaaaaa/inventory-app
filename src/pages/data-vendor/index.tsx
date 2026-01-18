@@ -6,6 +6,7 @@ import { useState } from "react";
 import CreateVendorModal from "@/modules/data-vendor/components/action/create-vendor";
 import { Button } from "@/components/ui/button";
 import type { VendorType } from "@/modules/data-vendor/types/type";
+import { useVendor } from "@/modules/data-vendor/api/get-list-vendor";
 
 // Dummy data
 const dummyVendors: VendorType[] = [
@@ -49,9 +50,8 @@ const dummyVendors: VendorType[] = [
 export default function DataVendor() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const vendors = dummyVendors;
-    const isLoading = false;
     const totalVendors = vendors.length;
-
+    const { data: vendorResponse, isLoading } = useVendor();
     return (
         <Dashboard
             breadcrumbItems={[
@@ -94,7 +94,7 @@ export default function DataVendor() {
                             <Button text="Add Vendor" icon={<Plus />} variant={"yellow"} onClick={() => setIsCreateModalOpen(true)} />
                         </div>
                     </div>
-                    <TableVendor data={vendors} loading={isLoading} />
+                    <TableVendor data={vendorResponse?.data || []} loading={isLoading} />
                 </div>
             </div>
             <CreateVendorModal

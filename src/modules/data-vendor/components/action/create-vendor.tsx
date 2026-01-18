@@ -7,6 +7,7 @@ import { useModalStore } from "@/hooks/use-modal-store";
 import { Label } from "@/components/ui/forms/label";
 import { Input } from "@/components/ui/forms/input";
 import { VendorSchema, type VendorFormData } from "../../schema";
+import { useCreateVendor } from "../../api/create-vendor";
 
 
 interface CreateVendorModalProps {
@@ -39,16 +40,7 @@ export default function CreateVendorModal({
     const modalFailed = useModalStore("modalFailed");
 
     const watchedValues = watch();
-    const isFormComplete = Boolean(
-        watchedValues.name &&
-        watchedValues.name.trim().length >= 3 &&
-        watchedValues.email &&
-        watchedValues.email.includes("@") &&
-        watchedValues.phone &&
-        watchedValues.phone.trim().length >= 10 &&
-        watchedValues.address &&
-        watchedValues.address.trim().length >= 5
-    );
+    const { mutateAsync: createVendor } = useCreateVendor({});
 
     useEffect(() => {
         if (!open) {
@@ -66,7 +58,7 @@ export default function CreateVendorModal({
             onCancel: modalConfirm.hideModal,
             onSubmit: async () => {
                 try {
-                    // TODO: Replace with actual API call
+                    await createVendor({ data: formValues });
                     console.log("Create vendor:", formValues);
                     modalConfirm.hideModal();
                     modalSuccess.openModal("Your data has been successfully saved.");
@@ -140,7 +132,7 @@ export default function CreateVendorModal({
         <DialogCreate
             title="Create New Vendor"
             inputForm={inputForm}
-            isFormComplete={isFormComplete}
+            isFormComplete={true}
             handleSubmit={handleFormSubmit}
             buttonTitle="Create"
             open={open}
