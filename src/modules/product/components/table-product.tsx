@@ -30,6 +30,7 @@ const TableProduct: React.FC<TableProductProps> = ({ loading,
                     <THead className="bg-slate-200 rounded-t-xl">
                         <Tr>
                             <Th className="font-medium  pr-9 ">Action</Th>
+                            <Th className="font-medium">Image</Th>
                             <Th className="font-medium">Product Name</Th>
                             <Th className="font-medium ">Code</Th>
                             <Th className="font-medium hidden md:table-cell">Category</Th>
@@ -50,6 +51,7 @@ const TableProduct: React.FC<TableProductProps> = ({ loading,
                                     <Button onClick={() => navigate(`/data-produk/edit/${item._id}` as Parameters<typeof navigate>[0])} icon={<Edit />} variant={"warning"} size={"iconMd"} />
                                     <ButtonDeleteProduct id={item.id ?? item._id} />
                                 </Td>
+                                <Td className="whitespace-normal">{item.image_url && <img src={item.image_url} alt={item.product_name} className="w-10 h-10 object-cover rounded-full" />}</Td>
                                 <Td className="whitespace-normal">{item.product_name}</Td>
                                 <Td className="font-medium">{item.code}</Td>
                                 <Td className="hidden md:table-cell">{item.category}</Td>

@@ -4,6 +4,7 @@ import { useModalStore } from "@/hooks/use-modal-store";
 import type { UseFormReturn } from "react-hook-form";
 import type { ProductFormData } from "../../types/main";
 import { useUpdateProduct } from "../../api/update-product";
+import { postImage } from "@/utils/image_post";
 import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
 
 type UpdateProductButtonProps = {
@@ -30,7 +31,18 @@ export default function UpdateProductButton({ form, id, onSuccess }: UpdateProdu
       onCancel: modalSubmit.hideModal,
       onSubmit: async () => {
         try {
-          await updateProduct({ id, data: values });
+          const payload = { ...values } as any;
+          if (payload.image_url && typeof payload.image_url !== "string") {
+            try {
+              const uploaded = await postImage({ image: payload.image_url });
+              payload.image_url = uploaded;
+            } catch (err) {
+              modalFailed.openModal("Failed to upload image. Please try again.");
+              return;
+            }
+          }
+
+          await updateProduct({ id, data: payload });
           modalSubmit.hideModal();
           form.reset();
           modalSuccess.openModal(

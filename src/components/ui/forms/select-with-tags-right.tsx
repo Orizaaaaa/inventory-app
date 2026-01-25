@@ -75,12 +75,12 @@ export function SelectWithTagsRight({
                         components={{ MultiValue: NoMultiValue }}
                         classNames={{
                             control: () =>
-                                cn("!min-h-[46px] !px-3 rounded-lg text-sm bg-neutral-4"),
+                                cn("min-h-[46px]! px-3! rounded-lg text-sm bg-neutral-4"),
                             menu: () =>
                                 "mt-2 py-2 rounded-lg bg-neutral-3 text-sm border border-gray-300 shadow-xs",
                             option: ({ isFocused, isSelected }) =>
                                 cn(
-                                    "!flex items-center min-h-9 px-3 border-l-2 border-transparent !text-sm hover:bg-blue-50 hover:border-l-2 hover:border-blue-500",
+                                    "flex! items-center min-h-9 px-3 border-l-2 border-transparent text-sm! hover:bg-blue-50 hover:border-l-2 hover:border-blue-500",
                                     (isFocused || isSelected) && "bg-blue-50 border-l-2"
                                 ),
                             placeholder: () => "text-neutral-7",

@@ -4,6 +4,7 @@ import { useModalStore } from "@/hooks/use-modal-store";
 import type { UseFormReturn } from "react-hook-form";
 import type { ProductFormData } from "../../types/main";
 import { useCreateProduct } from "../../api/create-product";
+import { postImage } from "@/utils/image_post";
 import { useModalConfirmStore } from "@/hooks/use-modal-confirm-store";
 import { useNavigate } from "@/routes";
 
@@ -31,7 +32,18 @@ export default function CreateProductButton({ form, onSuccess }: CreateProductBu
       onCancel: modalSubmit.hideModal,
       onSubmit: async () => {
         try {
-          await createProduct({ data: values });
+          const payload = { ...values } as any;
+          // If image_url is not a string, upload it first
+          if (payload.image_url && typeof payload.image_url !== "string") {
+            try {
+              const uploaded = await postImage({ image: payload.image_url });
+              payload.image_url = uploaded;
+            } catch (err) {
+              modalFailed.openModal("Failed to upload image. Please try again.");
+              return;
+            }
+          }
+          await createProduct({ data: payload });
           modalSubmit.hideModal();
           form.reset();
           modalSuccess.openModal(

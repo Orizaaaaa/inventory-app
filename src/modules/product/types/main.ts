@@ -11,6 +11,7 @@ export interface Product {
   stock_out: number;
   total_stock: number;
   location: string;
+  image_url: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -52,6 +53,8 @@ export const productCreateSchema = z.object({
   stock_out: z.number().min(0, "Stock out harus lebih dari atau sama dengan 0"),
   total_stock: z.number().min(0, "Total stock harus lebih dari atau sama dengan 0"),
   location: z.string().min(1, "Location wajib diisi"),
+  // optional image url (string) or file before upload
+  image_url: z.any().optional(),
 });
 
 export type ProductFormData = z.infer<typeof productCreateSchema>;

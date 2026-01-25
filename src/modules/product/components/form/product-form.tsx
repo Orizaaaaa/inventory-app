@@ -9,6 +9,7 @@ import { useEffect, useImperativeHandle, forwardRef, useMemo } from "react";
 import CreateProductButton from "../action/create-product-button";
 import UpdateProductButton from "../action/update-product-button";
 import { Package, DollarSign, MapPin, BarChart3 } from "lucide-react";
+import ImageCircleUploader from "@/components/ui/forms/image-circle-uploader";
 import { useCategory } from "@/modules/master-data/category/api/get-all-category";
 import { useLocation } from "@/modules/master-data/location/api/get-all-location";
 
@@ -71,6 +72,7 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
           stock_out: initialData.stock_out,
           total_stock: initialData.total_stock,
           location: initialData.location,
+          image_url: initialData.image_url,
         };
       }
       return {};
@@ -134,6 +136,16 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
               <h3 className="text-lg font-semibold text-gray-900">Informasi Produk</h3>
               <p className="text-sm text-gray-600">Detail informasi produk yang akan ditambahkan</p>
             </div>
+          </div>
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <ImageCircleUploader
+            defaultImageUrl={initialData?.image_url || undefined}
+              size={150}
+              iconSize={48}
+              onFileChange={(file) => {
+                setValue("image_url", file as any);
+              }}
+            />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Product Name */}
