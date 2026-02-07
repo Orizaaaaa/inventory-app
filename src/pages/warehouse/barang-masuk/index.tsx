@@ -3,14 +3,13 @@ import { Dashboard } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import FilterSelect from "@/components/ui/filter-select";
 import { SearchInput } from "@/components/ui/search-input";
-import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
 import {
     inventoryStats,
 } from "@/data/inventory-data";
 import TableBarangMasuk from "@/modules/warehouse/barang-masuk/components/table-barang-masuk";
 import { useBarangMasuk } from "@/modules/warehouse/barang-masuk/api/get-all-barang-masuk";
 import { useNavigate } from "@/routes";
-import { AlertTriangle, DollarSign, Package, Plus, TrendingUp } from "lucide-react";
+import { Package, Plus, } from "lucide-react";
 import DashboardStats from "@/components/ui/dashboard/dashboard-stats";
 
 export default function BarangMasuk() {
@@ -58,7 +57,7 @@ export default function BarangMasuk() {
                             text={" Add Barang Masuk"}
                         />
                     </div>
-                    <div className="flex justify-between px-4 py-4">
+                    {/* <div className="flex justify-between px-4 py-4">
                         <SearchInput placeholder="Search Barang Masuk" />
                         <div className="flex gap-3">
                             <FilterSelect
@@ -81,7 +80,7 @@ export default function BarangMasuk() {
                                 ]}
                             />
                         </div>
-                    </div>
+                    </div> */}
                     <TableBarangMasuk
                         loading={isLoading}
                         data={barangMasuk}

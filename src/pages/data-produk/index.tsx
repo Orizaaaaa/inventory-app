@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Dashboard } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/search-input";
-import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
 import DashboardStats from "@/components/ui/dashboard/dashboard-stats";
 import {
     inventoryStats,
@@ -10,7 +9,7 @@ import {
 import TableProduct from "@/modules/product/components/table-product";
 import { useProduct } from "@/modules/product/api/get-all-product";
 import { useNavigate } from "@/routes";
-import { AlertTriangle, DollarSign, Package, Plus, TrendingUp } from "lucide-react";
+import { Package, Plus, } from "lucide-react";
 
 export default function DataProduk() {
     const navigate = useNavigate();

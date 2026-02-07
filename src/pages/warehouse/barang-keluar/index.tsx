@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Dashboard } from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
 import {
     inventoryStats,
 } from "@/data/inventory-data";
 import TableBarangKeluar from "@/modules/warehouse/barang-keluar/components/table-barang-keluar";
 import { useBarangKeluar } from "@/modules/warehouse/barang-keluar/api/get-all-barang-keluar";
 import { useNavigate } from "@/routes";
-import { AlertTriangle, DollarSign, Package, Plus, TrendingUp } from "lucide-react";
+import { Package, Plus, } from "lucide-react";
 import DashboardStats from "@/components/ui/dashboard/dashboard-stats";
 
 export default function BarangKeluar() {
