@@ -8,8 +8,8 @@ import {
   Building2,
   Package,
   Warehouse,
-  ShoppingCart,
-  TrendingUp,
+  // ShoppingCart,
+  // TrendingUp,
   Layers,
   UserCog,
   Handshake,
@@ -87,44 +87,44 @@ const data = {
         },
       ],
     },
-    {
-      title: "Data Pre Order",
-      url: "/data-pre-order",
-      icon: ShoppingCart,
-      items: [
-        {
-          title: "Rincian Pre Order",
-          url: "/data-pre-order/rincian",
-        },
-        {
-          title: "Data sisa Pre Order",
-          url: "/data-pre-order/sisa",
-        },
-        {
-          title: "Format Pre Order",
-          url: "/data-pre-order/format",
-        },
-      ],
-    },
-    {
-      title: "Data Penjualan",
-      url: "/data-penjualan",
-      icon: TrendingUp,
-      items: [
-        {
-          title: "Market Place",
-          url: "/data-penjualan/market-place",
-        },
-        {
-          title: "Offline Store/Website",
-          url: "/data-penjualan/offline-store-website",
-        },
-        {
-          title: "Data Forecasting",
-          url: "/data-penjualan/forecasting",
-        },
-      ],
-    },
+    // {
+    //   title: "Data Pre Order",
+    //   url: "/data-pre-order",
+    //   icon: ShoppingCart,
+    //   items: [
+    //     {
+    //       title: "Rincian Pre Order",
+    //       url: "/data-pre-order/rincian",
+    //     },
+    //     {
+    //       title: "Data sisa Pre Order",
+    //       url: "/data-pre-order/sisa",
+    //     },
+    //     {
+    //       title: "Format Pre Order",
+    //       url: "/data-pre-order/format",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Data Penjualan",
+    //   url: "/data-penjualan",
+    //   icon: TrendingUp,
+    //   items: [
+    //     {
+    //       title: "Market Place",
+    //       url: "/data-penjualan/market-place",
+    //     },
+    //     {
+    //       title: "Offline Store/Website",
+    //       url: "/data-penjualan/offline-store-website",
+    //     },
+    //     {
+    //       title: "Data Forecasting",
+    //       url: "/data-penjualan/forecasting",
+    //     },
+    //   ],
+    // },
     {
       title: "Master Data",
       url: "/master-data",
