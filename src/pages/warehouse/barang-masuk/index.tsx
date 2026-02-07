@@ -11,6 +11,7 @@ import TableBarangMasuk from "@/modules/warehouse/barang-masuk/components/table-
 import { useBarangMasuk } from "@/modules/warehouse/barang-masuk/api/get-all-barang-masuk";
 import { useNavigate } from "@/routes";
 import { AlertTriangle, DollarSign, Package, Plus, TrendingUp } from "lucide-react";
+import DashboardStats from "@/components/ui/dashboard/dashboard-stats";
 
 export default function BarangMasuk() {
     const navigate = useNavigate();
@@ -42,52 +43,12 @@ export default function BarangMasuk() {
             ]}>
             <div className="space-y-6 mt-6">
                 {/* Main Stats Cards */}
-                <StatCardGrid>
-                    <StatCard
-                        title="Total Barang Masuk"
-                        value={pagination?.totalItems || 0}
-                        change={{
-                            value: inventoryStats.monthlyGrowth,
-                            type: 'increase',
-                            period: 'last month'
-                        }}
-                        icon={Package}
-                        iconColor="text-blue-600"
-                    />
-                    <StatCard
-                        title="Total Value"
-                        value={`Rp ${(inventoryStats.totalValue / 1000000).toFixed(0)}M`}
-                        change={{
-                            value: inventoryStats.weeklyGrowth,
-                            type: 'increase',
-                            period: 'last week'
-                        }}
-                        icon={DollarSign}
-                        iconColor="text-green-600"
-                    />
-                    <StatCard
-                        title="This Month"
-                        value={barangMasuk.length}
-                        change={{
-                            value: -5,
-                            type: 'decrease',
-                            period: 'last week'
-                        }}
-                        icon={AlertTriangle}
-                        iconColor="text-yellow-600"
-                    />
-                    <StatCard
-                        title="Total Pages"
-                        value={pagination?.totalPages || 0}
-                        change={{
-                            value: -2,
-                            type: 'decrease',
-                            period: 'last week'
-                        }}
-                        icon={TrendingUp}
-                        iconColor="text-red-600"
-                    />
-                </StatCardGrid>
+                <DashboardStats summary={{
+                    total_product: inventoryStats.totalProducts,
+                    total_product_low_stok: inventoryStats.lowStockItems,
+                    total_hpp_barang_masuk: inventoryStats.totalValue,
+                    total_hpp_barang_keluar: 0,
+                }} />
                 <div className="bg-white rounded-t-2xl">
                     <div className="flex justify-end pt-4 px-4">
                         <Button
