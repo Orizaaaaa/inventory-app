@@ -63,7 +63,9 @@ const BarangKeluarForm = forwardRef<UseFormReturn<BarangKeluarFormData>, BarangK
     }, [customerResponse?.data]);
 
     const productOptions = useMemo(() => {
-      const productsData = productResponse?.data || [];
+      const productsData = Array.isArray(productResponse?.data)
+        ? productResponse.data
+        : productResponse?.data?.products || [];
       return productsData.map((product) => ({
         label: product.product_name,
         value: product._id || product.id,
@@ -72,12 +74,19 @@ const BarangKeluarForm = forwardRef<UseFormReturn<BarangKeluarFormData>, BarangK
 
     // Watch product to auto-fill product_name_snapshot, hpp_snapshot, unit_snapshot
     const getProductDetails = (productId: string) => {
-      const product = productResponse?.data?.find((p) => (p._id || p.id) === productId);
-      return product ? {
+      const productsData = Array.isArray(productResponse?.data)
+        ? productResponse.data
+        : productResponse?.data?.products || [];
+      const product = productsData.find((p) => (p._id || p.id) === productId);
+      if (!product) return null;
+      const hppValue = product.hpp_per_piece && typeof product.hpp_per_piece === 'object'
+        ? parseFloat(product.hpp_per_piece.$numberDecimal || '0')
+        : (product.hpp_per_piece as any) || 0;
+      return {
         product_name_snapshot: product.product_name,
-        hpp_snapshot: product.hpp_per_piece || 0,
+        hpp_snapshot: hppValue,
         unit_snapshot: product.unit || "",
-      } : null;
+      };
     };
 
     const getDefaultValues = (): Partial<BarangKeluarFormData> => {

@@ -73,7 +73,9 @@ const BarangMasukForm = forwardRef<UseFormReturn<BarangMasukFormData>, BarangMas
     }, [locationResponse?.data]);
 
     const productOptions = useMemo(() => {
-      const productsData = productResponse?.data || [];
+      const productsData = Array.isArray(productResponse?.data)
+        ? productResponse.data
+        : productResponse?.data?.products || [];
       return productsData.map((product) => ({
         label: product.product_name,
         value: product._id || product.id,
