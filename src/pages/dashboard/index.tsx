@@ -4,13 +4,26 @@ import { StatCard, StatCardGrid, } from "@/components/ui/stat-cards";
 import { InventoryTable } from "@/components/ui/inventory-table";
 import RevenueChart from "@/components/ui/dashboard/revenue-chart";
 import ProfitByCategory from "@/components/ui/dashboard/profit-by-category";
-import {
-    inventoryStats,
-    topProducts,
-} from "@/data/inventory-data";
+import { useDashboard } from "@/modules/dashboard/api/get-dashboard";
 
 export default function Home() {
-    // Transform data for charts
+    const { data: dashboardData } = useDashboard();
+
+    const summary = dashboardData?.data?.summary;
+    const topSellingProducts = dashboardData?.data?.top_selling_product || [];
+    const valueTopProducts = dashboardData?.data?.value_top_product || [];
+    const weeklyRevenue = dashboardData?.data?.weekly_revenue || [];
+
+    // Transform topSellingProducts to InventoryTable format
+    const transformedProducts = topSellingProducts.map(product => ({
+        id: product.id,
+        name: product.name,
+        category: product.category.name,
+        stock: product.total_qty,
+        price: parseInt(product.hpp) || 0,
+        sales: product.total_qty_out,
+        status: product.total_qty === 0 ? 'out-of-stock' : product.total_qty < 10 ? 'low-stock' : 'in-stock',
+    } as const));
 
 
     return (
@@ -27,31 +40,21 @@ export default function Home() {
                 <StatCardGrid>
                     <StatCard
                         title="Total Products"
-                        value={inventoryStats.totalProducts}
+                        value={summary?.total_product || 0}
                         change={{
-                            value: inventoryStats.monthlyGrowth,
+                            value: 0,
                             type: 'increase',
                             period: 'last month'
                         }}
                         icon={Package}
                         iconColor="text-blue-600"
                     />
-                    <StatCard
-                        title="Total Value"
-                        value={`Rp ${(inventoryStats.totalValue / 1000000).toFixed(0)}M`}
-                        change={{
-                            value: inventoryStats.weeklyGrowth,
-                            type: 'increase',
-                            period: 'last week'
-                        }}
-                        icon={DollarSign}
-                        iconColor="text-green-600"
-                    />
+
                     <StatCard
                         title="Low Stock Items"
-                        value={inventoryStats.lowStockItems}
+                        value={summary?.total_product_low_stok || 0}
                         change={{
-                            value: -5,
+                            value: 0,
                             type: 'decrease',
                             period: 'last week'
                         }}
@@ -59,10 +62,21 @@ export default function Home() {
                         iconColor="text-yellow-600"
                     />
                     <StatCard
-                        title="Out of Stock"
-                        value={inventoryStats.outOfStockItems}
+                        title="Total Barang Masuk"
+                        value={`Rp ${((summary?.total_hpp_barang_masuk ?? 0)).toLocaleString('id-ID')}`}
                         change={{
-                            value: -2,
+                            value: 0,
+                            type: 'increase',
+                            period: 'last week'
+                        }}
+                        icon={DollarSign}
+                        iconColor="text-green-600"
+                    />
+                    <StatCard
+                        title="Total Barang Keluar"
+                        value={`Rp ${((summary?.total_hpp_barang_keluar ?? 0)).toLocaleString('id-ID')}`}
+                        change={{
+                            value: 0,
                             type: 'decrease',
                             period: 'last week'
                         }}
@@ -73,13 +87,13 @@ export default function Home() {
 
 
                 <div className="grid grid-cols-2 gap-4">
-                    <ProfitByCategory />
-                    <RevenueChart />
+                    <ProfitByCategory data={valueTopProducts} />
+                    <RevenueChart data={weeklyRevenue} />
                 </div>
 
                 {/* <InventoryOverview /> */}
 
-                <InventoryTable data={topProducts} />
+                <InventoryTable data={transformedProducts} />
 
             </div>
         </Dashboard>

@@ -2,48 +2,34 @@ import { useEffect, useRef, useState } from "react";
 import { Chart, registerables } from "chart.js";
 import type { ChartConfiguration } from "chart.js";
 import { DateRangePickerComponent, type DateRange } from "@/components/ui/forms/date-range-picker";
+import type { ValueTopProduct } from "@/modules/dashboard/types/main";
 
 Chart.register(...registerables);
 
-// Dummy data untuk Profit by Category
-const profitData = [
-  {
-    label: "Women's Clothing",
-    value: 400000,
-    color: "#000000", // Black
-  },
-  {
-    label: "Accessories",
-    value: 250000,
-    color: "#d97706", // Dark yellow
-  },
-  {
-    label: "Men's Clothing",
-    value: 200000,
-    color: "#f59e0b", // Lighter yellow
-  },
-  {
-    label: "Footwear",
-    value: 100000,
-    color: "#fbbf24", // Very light yellow
-  },
-  {
-    label: "Children's Clothing",
-    value: 50000,
-    color: "#e5e7eb", // White/light gray
-  },
-];
+// Colors untuk kategori sesuai dummy data
+const categoryColors = ["#000000", "#d97706", "#f59e0b", "#fbbf24", "#e5e7eb"];
 
-const totalProfit = profitData.reduce((sum, item) => sum + item.value, 0);
+interface ProfitByCategoryProps {
+  data?: ValueTopProduct[];
+}
 
-export default function ProfitByCategory() {
+export default function ProfitByCategory({ data = [] }: ProfitByCategoryProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartRef = useRef<Chart<"doughnut", number[], string> | null>(null);
   const [dateRange, setDateRange] = useState<DateRange>({
     startDate: new Date(new Date().getFullYear(), 0, 1), // Start of current year
     endDate: new Date(), // Current date
   });
+  // Transform dan limit data ke 5 product top
+  const profitData = (data || [])
+    .slice(0, 5)
+    .map((item, index) => ({
+      label: item.name,
+      value: item.total_value,
+      color: categoryColors[index],
+    }));
 
+  const totalProfit = profitData.reduce((sum, item) => sum + item.value, 0);
   useEffect(() => {
     if (!canvasRef.current) return;
 
@@ -82,7 +68,7 @@ export default function ProfitByCategory() {
               label: (context) => {
                 const value = context.parsed as number;
                 const percentage = ((value / totalProfit) * 100).toFixed(0);
-                return `${context.label}: $${value.toLocaleString()} (${percentage}%)`;
+                return `Rp ${value.toLocaleString('id-ID')} (${percentage}%)`;
               },
             },
           },
@@ -98,7 +84,7 @@ export default function ProfitByCategory() {
         chartRef.current.destroy();
       }
     };
-  }, []);
+  }, [profitData, totalProfit]);
 
   return (
     <div className="bg-white rounded-xl p-4  border border-gray-100">
@@ -106,9 +92,9 @@ export default function ProfitByCategory() {
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-base font-semibold text-gray-900 mb-1">Profit by Category</h3>
-          <p className="text-xs text-gray-500 mb-1">Total Annual Profit</p>
+          <p className="text-xs text-gray-500 mb-1">Total Value</p>
           <p className="text-2xl font-bold text-gray-900">
-            ${totalProfit.toLocaleString()}
+            Rp {totalProfit.toLocaleString('id-ID')}
           </p>
         </div>
         <div className="w-[220px]">
@@ -150,7 +136,7 @@ export default function ProfitByCategory() {
                   </span>
                 </div>
                 <span className="text-sm font-semibold text-gray-900 ml-2 shrink-0">
-                  ${item.value.toLocaleString()}
+                  Rp {item.value.toLocaleString('id-ID')}
                 </span>
               </div>
             );

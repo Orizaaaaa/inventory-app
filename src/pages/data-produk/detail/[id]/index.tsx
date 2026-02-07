@@ -105,7 +105,7 @@ const ProductDetailPage: React.FC = () => {
                         <DetailItem label="Total Stok" value={product.total_stock} />
                         <DetailItem label="Stok Masuk" value={product.stock_in} />
                         <DetailItem label="Stok Keluar" value={product.stock_out} />
-                        <DetailItem label="HPP per Piece" value={formatRupiah(product.hpp_per_piece)} />
+                        <DetailItem label="HPP per Piece" value={formatRupiah(parseFloat(product.hpp_per_piece.$numberDecimal || '0'))} />
                         <DetailItem label="ID" value={product._id} />
                     </div>
                 </div>

@@ -1,12 +1,16 @@
 import { useEffect, useRef } from "react";
 import { Chart, registerables } from "chart.js";
 import type { ChartConfiguration, TooltipItem } from "chart.js";
+import type { WeeklyRevenue } from "@/modules/dashboard/types/main";
 
 Chart.register(...registerables);
 
-// Dummy data untuk Revenue Chart (weekly)
-const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const revenueData = [450, 700, 1050, 500, 1674, 1000, 1800];
+// Default data labels
+const defaultDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+interface RevenueChartProps {
+  data?: WeeklyRevenue[];
+}
 
 // Format tanggal untuk tooltip
 const getDateForDay = (dayIndex: number) => {
@@ -22,9 +26,14 @@ const getDateForDay = (dayIndex: number) => {
   });
 };
 
-export default function RevenueChart() {
+export default function RevenueChart({ data = [] }: RevenueChartProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartRef = useRef<Chart<"line", number[], string> | null>(null);
+
+  // Transform API data
+  const chartData = (data || []).length > 0 ? data : [];
+  const labels = chartData.length > 0 ? chartData.map((_, i) => defaultDays[i]) : defaultDays;
+  const revenueData = chartData.length > 0 ? chartData.map(item => item.revenue) : [0, 0, 0, 0, 0, 0, 0];
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -40,7 +49,7 @@ export default function RevenueChart() {
     const config: ChartConfiguration<"line", number[], string> = {
       type: "line",
       data: {
-        labels: days,
+        labels: labels,
         datasets: [
           {
             label: "Revenue",

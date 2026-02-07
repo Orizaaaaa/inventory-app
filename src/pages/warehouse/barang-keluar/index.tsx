@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Dashboard } from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import FilterSelect from "@/components/ui/filter-select";
-import { SearchInput } from "@/components/ui/search-input";
 import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
 import {
     inventoryStats,
@@ -97,7 +95,7 @@ export default function BarangKeluar() {
                             text={" Add Barang Keluar"}
                         />
                     </div>
-                    <div className="flex justify-between px-4 py-4">
+                    {/* <div className="flex justify-between px-4 py-4">
                         <SearchInput placeholder="Search Barang Keluar" />
                         <div className="flex gap-3">
                             <FilterSelect
@@ -120,7 +118,7 @@ export default function BarangKeluar() {
                                 ]}
                             />
                         </div>
-                    </div>
+                    </div> */}
                     <TableBarangKeluar
                         loading={isLoading}
                         data={barangKeluar}

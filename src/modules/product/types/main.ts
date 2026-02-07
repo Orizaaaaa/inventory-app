@@ -1,6 +1,8 @@
 export interface Product {
   _id: string;
-  hpp_per_piece: number;
+  hpp_per_piece: {
+    $numberDecimal: string;
+  };
   product_name: string;
   category: string;
   code: string;
@@ -15,14 +17,28 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  id: string;
+  id?: string;
+}
+
+export interface Pagination {
+  current_page: number;
+  total_pages: number;
+  total_items: number;
+  items_per_page: number;
+  has_next_page: boolean;
+  has_prev_page: boolean;
+  next_page: number | null;
+  prev_page: number | null;
 }
 
 export interface ProductResponse {
   code: number;
   status: string;
   message: string;
-  data: Product[];
+  data: {
+    products: Product[];
+    pagination: Pagination;
+  };
 }
 
 export interface ProductCreate {

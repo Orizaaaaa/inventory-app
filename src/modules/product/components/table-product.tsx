@@ -1,23 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import { Table, TBody, Th, THead, Tr, Td } from "@/components/ui/table";
 import { formatRupiah } from "@/utils/format";
 import { Button } from "@/components/ui/button";
-import type { Product } from "../types/main";
+import type { Product, Pagination } from "../types/main";
 import { Edit, EyeIcon } from "lucide-react";
 import PaginationWrapper from "@/components/ui/pagination-wrapper";
 import { useNavigate } from "@/routes";
 import ButtonDeleteProduct from "./action/button-delete-product";
 import LoaderData from "@/components/ui/loader-data";
+import { MdOutlineImageNotSupported } from "react-icons/md";
 interface TableProductProps {
-    data: Product[]
+    data: Product[];
     loading: boolean;
+    pagination?: Pagination;
+    onPageChange?: (page: number) => void;
+    onRowsPerPageChange?: (limit: number) => void;
 }
 
-const TableProduct: React.FC<TableProductProps> = ({ loading,
+const TableProduct: React.FC<TableProductProps> = ({
+    loading,
     data,
+    pagination,
+    onPageChange,
+    onRowsPerPageChange,
 }) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
     const navigate = useNavigate();
 
 
@@ -51,7 +57,11 @@ const TableProduct: React.FC<TableProductProps> = ({ loading,
                                     <Button onClick={() => navigate(`/data-produk/edit/${item._id}` as Parameters<typeof navigate>[0])} icon={<Edit />} variant={"warning"} size={"iconMd"} />
                                     <ButtonDeleteProduct id={item.id ?? item._id} />
                                 </Td>
-                                <Td className="whitespace-normal">{item.image_url && <img src={item.image_url} alt={item.product_name} className="w-10 h-10 object-cover rounded-full" />}</Td>
+                                <Td className="whitespace-normal">
+                                    {item.image_url ? <img src={item.image_url} alt={item.product_name} className="w-10 h-10 object-cover rounded-full" />
+                                        : <div className="bg-slate-100 p-4 rounded-full flex items-center justify-center w-10 h-10 object-cover rounded-full">
+                                            <MdOutlineImageNotSupported size={50} color="gray" />
+                                        </div>}</Td>
                                 <Td className="whitespace-normal">{item.product_name}</Td>
                                 <Td className="font-medium">{item.code}</Td>
                                 <Td className="hidden md:table-cell">{item.category}</Td>
@@ -61,21 +71,23 @@ const TableProduct: React.FC<TableProductProps> = ({ loading,
                                 <Td className="text-center hidden sm:table-cell">{item.stock_out}</Td>
                                 <Td className="text-center font-medium">{item.total_stock}</Td>
                                 <Td className="hidden md:table-cell">{item.location}</Td>
-                                <Td className="text-right">{formatRupiah(item.hpp_per_piece)}</Td>
+                                <Td className="text-right">{formatRupiah(parseFloat(item.hpp_per_piece.$numberDecimal || '0'))}</Td>
                             </Tr>
                         ))}
                     </TBody>
                 </Table>
                 <LoaderData data={data ?? []} loading={loading} colCount={10} rowCount={5} />
-                <PaginationWrapper
-                    totalRows={data.length}
-                    page={currentPage}
-                    rowsPerPage={rowsPerPage}
-                    defaultRowsPerPage={5}
-                    rowsPerPageOptions={[5, 10, 20]}
-                    onPageChange={setCurrentPage}
-                    onRowsPerPageChange={setRowsPerPage}
-                />
+                {pagination && (
+                    <PaginationWrapper
+                        totalRows={pagination.total_items}
+                        page={pagination.current_page}
+                        rowsPerPage={pagination.items_per_page}
+                        defaultRowsPerPage={10}
+                        rowsPerPageOptions={[5, 10, 20]}
+                        onPageChange={onPageChange || (() => { })}
+                        onRowsPerPageChange={onRowsPerPageChange || (() => { })}
+                    />
+                )}
             </div>
         </div>
     );

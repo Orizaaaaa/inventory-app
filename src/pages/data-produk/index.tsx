@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { Dashboard } from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import FilterSelect from "@/components/ui/filter-select";
 import { SearchInput } from "@/components/ui/search-input";
 import { StatCard, StatCardGrid } from "@/components/ui/stat-cards";
 import {
@@ -10,12 +10,38 @@ import TableProduct from "@/modules/product/components/table-product";
 import { useProduct } from "@/modules/product/api/get-all-product";
 import { useNavigate } from "@/routes";
 import { AlertTriangle, DollarSign, Package, Plus, TrendingUp } from "lucide-react";
+
 export default function DataProduk() {
     const navigate = useNavigate();
-    const { data: productResponse, isLoading, isError } = useProduct();
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [search, setSearch] = useState("");
+
+    const { data: productResponse, isLoading, isError } = useProduct({
+        params: {
+            page,
+            limit,
+            search,
+        } as any,
+    });
     console.log(isError);
 
-    const products = productResponse?.data || [];
+    const products = productResponse?.data?.products || [];
+    const pagination = productResponse?.data?.pagination;
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleRowsPerPageChange = (newLimit: number) => {
+        setLimit(newLimit);
+        setPage(1);
+    };
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value);
+        setPage(1); // Reset to page 1 when searching
+    };
     return (
         <Dashboard
             breadcrumbItems={[
@@ -74,8 +100,12 @@ export default function DataProduk() {
                         <Button onClick={() => navigate("/data-produk/create" as Parameters<typeof navigate>[0])} icon={<Plus />} variant={"yellow"} text={" Add Product"} />
                     </div>
                     <div className="flex justify-between px-4 py-4">
-                        <SearchInput placeholder="Search Product" />
-                        <div className="flex gap-3">
+                        <SearchInput
+                            placeholder="Search Product"
+                            value={search}
+                            onChange={handleSearchChange}
+                        />
+                        {/* <div className="flex gap-3">
                             <FilterSelect
                                 placeholder="All Status"
                                 options={[
@@ -97,13 +127,17 @@ export default function DataProduk() {
                                     { label: "APPROVED", value: "APPROVED" },
                                 ]}
                             />
-                        </div>
+                        </div> */}
                     </div>
-                    <TableProduct loading={isLoading} data={products} />
+                    <TableProduct
+                        loading={isLoading}
+                        data={products}
+                        pagination={pagination}
+                        onPageChange={handlePageChange}
+                        onRowsPerPageChange={handleRowsPerPageChange}
+                    />
                 </div>
             </div>
-
-
         </Dashboard>
     );
 }

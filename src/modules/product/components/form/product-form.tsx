@@ -37,7 +37,7 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
     // Fetch category data from API
     const { data: categoryResponse, isLoading: isLoadingCategory } = useCategory();
     const categories = categoryResponse?.data || [];
-    
+
     // Fetch location data from API
     const { data: locationResponse, isLoading: isLoadingLocation } = useLocation();
     const locations = locationResponse?.data || [];
@@ -61,7 +61,7 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
     const getDefaultValues = (): Partial<ProductFormData> => {
       if (mode === "edit" && initialData) {
         return {
-          hpp_per_piece: initialData.hpp_per_piece,
+          hpp_per_piece: parseFloat(initialData.hpp_per_piece.$numberDecimal || '0'),
           product_name: initialData.product_name,
           category: initialData.category,
           code: initialData.code,
@@ -109,7 +109,7 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
     useEffect(() => {
       if (initialData && mode === "edit") {
         reset({
-          hpp_per_piece: initialData.hpp_per_piece,
+          hpp_per_piece: parseFloat(initialData.hpp_per_piece.$numberDecimal || '0'),
           product_name: initialData.product_name,
           category: initialData.category,
           code: initialData.code,
@@ -139,7 +139,7 @@ const ProductForm = forwardRef<UseFormReturn<ProductFormData>, ProductFormProps>
           </div>
           <div className="flex items-center justify-center gap-3 mb-6">
             <ImageCircleUploader
-            defaultImageUrl={initialData?.image_url || undefined}
+              defaultImageUrl={initialData?.image_url || undefined}
               size={150}
               iconSize={48}
               onFileChange={(file) => {
