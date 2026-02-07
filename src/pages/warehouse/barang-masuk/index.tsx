@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Dashboard } from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import FilterSelect from "@/components/ui/filter-select";
-import { SearchInput } from "@/components/ui/search-input";
 import {
     inventoryStats,
 } from "@/data/inventory-data";
