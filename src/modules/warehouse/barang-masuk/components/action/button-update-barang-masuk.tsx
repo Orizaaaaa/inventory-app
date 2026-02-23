@@ -17,7 +17,7 @@ export default function UpdateBarangMasukButton({ form, id, onSuccess }: UpdateB
     const modalFailed = useModalStore("modalFailed");
     const modalSubmit = useModalConfirmStore("modalSubmit");
 
-    const { handleSubmit, formState: { isValid } } = form;
+    const { handleSubmit, } = form;
     const { mutateAsync: updateBarangMasuk } = useUpdateBarangMasuk({});
 
     const handleUpdate = handleSubmit(async (values, e) => {
@@ -57,7 +57,6 @@ export default function UpdateBarangMasukButton({ form, id, onSuccess }: UpdateB
                 text="Update"
                 className="w-[150px]"
                 onClick={handleUpdate}
-                disabled={!isValid}
             />
         </div>
     );

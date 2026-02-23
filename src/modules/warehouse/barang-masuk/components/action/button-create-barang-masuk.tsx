@@ -18,7 +18,7 @@ export default function CreateProductMasukButton({ form }: CreateProductButtonPr
     const modalFailed = useModalStore("modalFailed");
     const modalSubmit = useModalConfirmStore("modalSubmit");
 
-    const { handleSubmit, formState: { isValid } } = form;
+    const { handleSubmit } = form;
     const { mutateAsync: createBarangMasuk } = useCreateBarangMasuk({});
 
     const handleCreate = handleSubmit(async (values, e) => {
@@ -55,7 +55,6 @@ export default function CreateProductMasukButton({ form }: CreateProductButtonPr
                 text="Submit"
                 className="w-[150px]"
                 onClick={handleCreate}
-                disabled={!isValid}
             />
 
         </div>
