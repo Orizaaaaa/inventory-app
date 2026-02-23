@@ -105,7 +105,7 @@ export type BarangKeluarApiPayload = Omit<BarangKeluarFormData, 'date'> & { date
 import { z } from "zod";
 
 export const barangKeluarCreateSchema = z.object({
-  date: z.date().min(new Date("1900-01-01"), "Date is required"),
+  date: z.date(),
   note_type_id: z.string().min(1, "Note type wajib diisi"),
   customer_id: z.string().min(1, "Customer wajib diisi"),
   note_number: z.string().min(1, "Note number wajib diisi"),

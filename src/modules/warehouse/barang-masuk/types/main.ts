@@ -104,7 +104,7 @@ export interface BarangMasukCreate {
 import { z } from "zod";
 
 export const barangMasukCreateSchema = z.object({
-  date: z.date().min(new Date(), "Date must be greater than today"),
+  date: z.date(),
   note_type: z.string().min(1, "Note type wajib diisi"),
   supplier: z.string().min(1, "Supplier wajib diisi"),
   note_number: z.string().min(1, "Note number wajib diisi"),
